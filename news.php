@@ -120,7 +120,7 @@ $bibkey = $_GET['bibkey'];
 				</ol>
 				<h3><i class="fa fa-newspaper-o"></i>&nbsp;&nbsp;Neuigkeiten</h3>
 				<hr />
-				<h4><a href="http://www.bbsr.bund.de">BBSR - Aktuelle Nachrichten zum Thema Raumentwicklung</h4>
+				<h4><a target="_blank" href="http://www.bbsr.bund.de">BBSR - Aktuelle Nachrichten zum Thema Raumentwicklung</h4>
 					<?php 
 					$anzahl2 = count ( $bbsr_posts );
 						
@@ -131,7 +131,7 @@ $bibkey = $_GET['bibkey'];
 					
 					;?>
 				
-				<h4><a href="https://www.destatis.de"">RSS-Newsfeed des Statistischen Bundesamtes</h4>
+				<h4><a target="_blank" href="https://www.destatis.de"">RSS-Newsfeed des Statistischen Bundesamtes</h4>
 					<?php 
 					$anzahl = count ( $destatis_posts );
 						
