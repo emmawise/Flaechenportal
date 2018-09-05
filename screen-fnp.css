@@ -248,6 +248,15 @@ div > .media:last-child {
 	content: "\f107";
 }
 
+.panel-title .fa
+{
+color:#FFF;
+font-size:1.2em;
+margin-right:5px;
+margin-top:3px;
+
+}
+
 .doc-body{
 	margin-left:10px;
 	

@@ -118,7 +118,7 @@
 					<li><a href="index.html"><i class="fa fa-home"></i></a></li>
 					<li class="active">Ziele</li>
 				</ol>
-				<h3><i class="fa fa-line-chart"></i>&nbsp;&nbsp;Ziele</h3>
+				<h3><i class="fa fa-line-chart fa-flip-vertical"></i>&nbsp;&nbsp;Ziele</h3>
 				<p>Formalisierte flächenpolitische Ziele von Bund, Ländern und Regionen, um beispielsweise die Flächenneuinanspruchnahme zu begrenzen. Sie finden sich in vielfältigen Leitbildern, Strategien und Programmen. </p>
 				<!--Filterbereich-->
 			<!--	<div class="panel panel-default accordeon">
