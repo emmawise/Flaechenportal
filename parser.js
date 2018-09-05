@@ -24,24 +24,7 @@
 *  value_braces -> '{' .*? '"'; // not quite
 *
 */
-function getStatus(url) {
-  var request = new XMLHttpRequest();
-request.onreadystatechange = function() {
-  if (request.readyState === 4){
-      request.status;//this contains the status code
-      setHtml('disp', request.status);
-  }
-};
-  request.open("GET", url, true);
-  request.send(); 
-} 
 
-
-function setHtml(targetC, htmldata) {
-console.log(htmldata);
-//var theDiv = document.getElementById(targetC);
-//theDiv.innerHTML = htmldata;
-}
 function BibtexParser() {
 	/*position in the text that is parsed*/
   this.pos = 0;
@@ -711,12 +694,13 @@ else{
             });
 });
     
+
     // fill in remaining fields 
     for (var index in keys) {
     //		console.log('Das ist schritt 31');
       var key = keys[index];
       var value = entry[key] || "";
-          
+
       // Fill out bibtex raw and continue     
       if(key=="BIBTEXRAW") {
         tpl.find("." + key.toLowerCase()).html(value); 
@@ -742,7 +726,10 @@ else{
                 value = value.replace(/\\url/g, '');
                 value = this.fixValue(value);
                 urlallg = this.fixValue(value);
-                getStatus(urlallg);
+    
+
+              //  getStatus(urlallg);
+
                
               /*  function isValidURL(url) {
                   //console.log(url);
