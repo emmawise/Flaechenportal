@@ -151,7 +151,7 @@
 														  	<dt>Literaturangabe (American <br>
 														  						Psychological Association <br>
 														  						6th edition)</dt>	
-															  	<dd>	<span id="citations"></span>
+															  	<dd>	<!--<span id="citations"></span>-->
 															 			  <span class="if author"> <span class="author"></span>.</span>	<span class="if editor"> <span class="editor"></span>	(Hrsg.)</span>	
 															 			  <span class="if date">(<span class="date"></span>).	</span><span class="title"> </span>.<span class="if url"> 	Abgerufen von&nbsp;<span class="url"></span></span>
 																	</dd>	
