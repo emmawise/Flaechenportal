@@ -631,13 +631,11 @@ else{
   };
 
   
-  this.createTemplate = function(entry, output){ //neu: output
-  	 	//console.log('Das ist schritt 29');
-  	 	 //	console.log(entry);
-  	      // Check if bibtex keys are limiting output (bibtexkeys="key1|key2|...|keyN") 5 neue Zeilen
+  this.createTemplate = function(entry, output){ //neu: output 	
+ // Check if bibtex keys are limiting output (bibtexkeys="key1|key2|...|keyN") 5 neue Zeilen
         if (output[0].hasAttribute("bibtexkeys")) {
             var bitexkeys = output[0].getAttribute("bibtexkeys");
-            if (!entry["BIBTEXKEY"].match(bitexkeys))
+                if (entry["BIBTEXKEY"] !== bitexkeys) //direkter Vergleich, da match() Endung "-1" des Bibkeys nicht beachtet, bei gl. Titel/Autor und Jahr-> Detailansicht würde alle entries ausgeben
                 return null;
         }
 	
