@@ -1,9 +1,4 @@
-﻿
-
-$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})
-
+﻿/****Funktion für Kopieren von Code (Bibtexraw) in Zwischenablage */
 function CopyToClipboard(containerid) {
 	console.log(containerid);
 if (document.selection) { 
@@ -22,6 +17,8 @@ if (document.selection) {
      	console.log(containerid2);
      document.getElementById(containerid2).textContent = "Code erfolgreich in Zwischenablage gespeichert.";
 }}
+/*****Ende Kopie Zwischenablage */
+
 
 /*
 function splitkeywords() {
