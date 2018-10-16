@@ -1,6 +1,6 @@
 ﻿
 /* 
-*modified Christin Michel //eigenes
+* modified for IOR-Flaechenportal by Christin Michel 
 * Author = Philip Cooksey
 * Edited = July 2018
 * Website = https://github.com/pcooksey/bibtex-js
@@ -26,7 +26,8 @@
 */
 
 function BibtexParser() {
-	/*position in the text that is parsed*/
+/*Verarbeitet string mit dem Bibtex-Code zu Object mit einem entry je Dokument, das dann key-value-paare enthält für Metadatenfelder
+  /*position in the text that is parsed*/
   this.pos = 0;
   this.input = "";
  
@@ -53,33 +54,27 @@ function BibtexParser() {
   
 
   this.setInput = function(t) {
-  //	console.log('Das ist schritt 1');
     this.input = t;
   };
   
-  this.getEntries = function() {
-  	// 	console.log('Das ist schritt 2 entires:');
-  	 	 
+  this.getEntries = function() {  	 	 
     return this.entries;
   };
   
   this.getBibTexRaw = function() {
-  	 	// console.log('Das ist schritt 3');
-  	return this.bibtexraw;
+    	return this.bibtexraw;
   };
   
   this.errorThrown = function(str) {
-  	 	//console.log('Das ist schritt 4');
-    $("#bibtex_errors").html(str);
+    /*Ausgabe von Fehlern beim Parsen in vorgegebenen HTML-Bereich*/
+      $("#bibtex_errors").html(str);
   };
 
   this.isWhitespace = function(s) {
-  	 	//console.log('Das ist schritt 5');
-    return (s == ' ' || s == '\r' || s == '\t' || s == '\n');
+      return (s == ' ' || s == '\r' || s == '\t' || s == '\n');
   };
 
   this.match = function(s) {
-  	// 	console.log('Das ist schritt 6');
     this.skipWhitespace();
     if (this.input.substring(this.pos, this.pos+s.length) == s) {
       this.pos += s.length;
@@ -90,20 +85,17 @@ function BibtexParser() {
   };
 
   this.tryMatch = function(s) {
-  	 //	console.log('Das ist schritt 7');
     this.skipWhitespace();
     if (this.input.substring(this.pos, this.pos+s.length) == s) {
       return true;
     } else {
       return false;
     }
-    this.skipWhitespace();
   };
   
 /*skip all the whitespaces until something interesting appears*/
   this.skipWhitespace = function() {
-  	// 	console.log('Das ist schritt 8');
-    while (this.isWhitespace(this.input[this.pos])) {
+      while (this.isWhitespace(this.input[this.pos])) {
       this.pos++;
     }
     if (this.input[this.pos] == "%") {
@@ -116,8 +108,7 @@ function BibtexParser() {
 
 /*returns the value which is under braces*/
   this.value_braces = function() {
-  	 	//console.log('Das ist schritt 9')
-    var bracecount = 0;
+  	var bracecount = 0;
     this.match("{");
     var start = this.pos;
     while(true) {
@@ -140,8 +131,7 @@ function BibtexParser() {
 
 /*returns the value which is under quotes*/
   this.value_quotes = function() {
-  	 	//console.log('Das ist schritt 10');
-  	var bracecount = 0;
+   	var bracecount = 0;
     this.match('"');
     var start = this.pos;
     while(true) {
@@ -162,30 +152,16 @@ function BibtexParser() {
     }
   };
   
-  //eigenes
-  function takeCareAboutAccentsEtc(string)
-  {
-  	// 	console.log('Das ist schritt 11');
-      return string.replace(/\\c{c}/g, "Ã§").replace(/\"{a}/g, "Ã¤").replace(/\\'{a}/g, "Ã¡");
-  }
-
-  
+ 
   /*returns the value that has to be read (maybe in {..}, in "..." or just a character)*/
   this.single_value = function() {
-  	 //	console.log('Das ist schritt 12');
-    var start = this.pos; //Indexposition/Stellennummer wo  { des .bib
-         // 	console.log(this.pos);  
-    if (this.tryMatch("{")) {
-   
-      return this.value_braces();
-      
+  	var start = this.pos; //Indexposition/Stellennummer wo  { des .bib
+    if (this.tryMatch("{")) {   
+      return this.value_braces();      
     } else if (this.tryMatch('"')) {
-
-      return this.value_quotes();
-      
+      return this.value_quotes();      
     } else {
-		      var k = this.key();
-		 
+		      var k = this.key();		 
 		      if (this.strings[k.toUpperCase()]) {
 		        return this.strings[k];
 		      } else if (k.match("^[0-9]+$")) {   //Behandlung von Zeichen 0-9 im key bei Groß-/Kleinschreibung
@@ -195,11 +171,9 @@ function BibtexParser() {
 		      }
     }
   };
-
   
   /*read several value in one (separated with #)*/
   this.value = function() {
-  	// 	console.log('Das ist schritt 13');
     var values = [];
     values.push(this.single_value());
     while (this.tryMatch("#")) {
@@ -212,8 +186,7 @@ function BibtexParser() {
 /*read a "key = value" expression
 returns an array of the form [ key, val ]*/
   this.key = function() {
-  	// 	console.log('Das ist schritt 14');
-    var start = this.pos;
+  	var start = this.pos;
     while(true) {
       if (this.pos == this.input.length) {
         throw "Runaway key";
@@ -231,33 +204,27 @@ returns an array of the form [ key, val ]*/
 /*read a list of "key = value" expressions*/
 var z=0; //zählvariable für annotations
   this.key_equals_value = function() {
-  	 	//console.log('Das ist schritt 15');
-    var key = this.key();    	
-   // console.log ('key vorher: '+key);
-    
+  	var key = this.key();  	
+   
     //Es gibt mehrere Annotation, deshalb darf nicht alles "ANNOTATION" heißen sondern wird mit var z durchnummeriert
     if(key == "ANNOTATION")
     {    
     	key="ANNOTATION"+ z;
-    	z=z+1;
-    	//console.log('z= '+z);    	
+    	z=z+1;       	
     }
-    //	console.log('key nachher: '+key); //ANNOTATION0, ANNOTATION1, ...
-    
+
     if (this.tryMatch("=")) {
       this.match("=");
       var val = this.value();
       return [ key, val ];
     } else {
       throw "... = value expected, equals sign missing:" + this.input.substring(this.pos);
-    }
-        
+    }        
   };
 
 /* the key is already read, this function reads what is next after the key */
   this.key_value_list = function() {
-  	 	//console.log('Das ist schritt 16');
-    var kv = this.key_equals_value();
+  	 var kv = this.key_equals_value();
     this.entries[this.currentEntry][kv[0]] = kv[1];
     while (this.tryMatch(",")) {
       this.match(",");
@@ -271,193 +238,107 @@ var z=0; //zählvariable für annotations
     z=0; //z wieder auf 0 setzen nach ende eines Dokumentes, damit Notizen/Annotations beim nächsten wieder von vorn gezählt werden
   };
 
+  //Zuordnung des Dokuments zu einer Kategorie; garantiert, dass jedes zugewiesen wird. directive kennzeichnet Dokumentenart aus Zotero
   this.entry_body = function(directive) {
-  	 //	console.log('Das ist schritt 17');
-    this.currentEntry = this.key();
-    this.entries[this.currentEntry] = new Object();
-    this.entries[this.currentEntry]["BIBTEXKEY"] = this.rawCurrentKey;
-   if (directive == "@MISC") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
-	}
-     else if (directive == "@LEGISLATION") {
-      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetz";
-	} else if (directive == "@UNPUBLISHED") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
-	} else if (directive == "@ONLINE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Webseite";			
-	} 
-	  else if (directive == "@ARTICLE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
-	} else if (directive == "@REPORT") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Bericht";
-	}  
-	else if (directive == "@INREFERENCE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Glossar";
-	}   
-	 else  {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anderes";
+      this.currentEntry = this.key();
+      this.entries[this.currentEntry] = new Object();
+      this.entries[this.currentEntry]["BIBTEXKEY"] = this.rawCurrentKey;
+      this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-folder-open'></i>";	
+    if (directive == "@MISC") {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
+    }
+      else if (directive == "@LEGISLATION") {
+        this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetz";
+    } else if (directive == "@UNPUBLISHED") {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
+    } else if (directive == "@ONLINE") {
+      //Fall online ->Portale		
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Webseite";			
+    } 
+      else if (directive == "@ARTICLE") {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
+    } else if (directive == "@REPORT") {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Bericht";
+    }  
+    else if (directive == "@INREFERENCE") {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Glossar";
+    }   
+    else  {
+      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anderes";
+   } 
 
-//console.log(directive);
-	} 
-
-		 this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = directive;
-    this.match(",");
-    	    
- this.key_value_list();
-  
-  //erneutes definieren&überschreiben von bestimmten Bibtextypes, wenn Keywords vorhanden. Nötig da Keywords nicht bekannt, ehe Key_value_list() ausgeführt wurde
-var keywords= this.entries[this.currentEntry]["KEYWORDS"];
-if (keywords != undefined){
-	if( keywords.includes('Ziele')){
-				//Fall Webseite ->Portale				
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ZIELE";			
-			}
-			
-		 if(keywords.includes('Fachliteratur')){
-				//Fall Bericht ->Fachliteratur	
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@FACHLITERATUR";
-			}
-	 if(keywords.includes('Gesetzliche Regelungen')){
-				//Fall Webseite ->Portale				
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetzliche Regelungen";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@GESETZE";			
-			}
-			 if(keywords.includes('Statistische Angebote')){
-				//Fall Bericht-> Statistische Angebote
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = " Statistische Angebote";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@STATISTIK";
-			}	
-					 if(keywords.includes('Portale')){
-				//Fall Webseite ->Portale				
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Portale";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@PORTALE";
-			
-			}
-				 if(keywords.includes('Anwendungen')){
-				//Fall Webseite ->Anwendungen	
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anwendungen";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ANWENDUNGEN";
-			}
-	
-
-
-	
-
-	}
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+      this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = directive;
+      this.match(",");
+            
+  this.key_value_list();
     
-     
-/*
-    if (directive == "@LEGISLATION") {
-      this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetz/@legislation";
-	} else if (directive == "@UNPUBLISHED") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur/@unpublished";
-	} else if (directive == "@ONLINE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Webseite/@online";			
-	} 
-	  else if (directive == "@MISC") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele/@misc";
-	} else if (directive == "@ARTICLE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur/@article";
-	} else if (directive == "@REPORT") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Bericht/@report";
-	}  
-	else if (directive == "@INREFERENCE") {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "Glossar/@inreference";
-	}   
-	 else  {
-	  this.entries[this.currentEntry]["BIBTEXTYPE"] = "@anderes";
-	} 
-
-		 this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = directive;
-    this.match(",");
-    	    
- this.key_value_list();
-      //  console.log('key=' +this.entries[this.currentEntry]["BIBTEXKEY"] );
-      //console.log('autor=' +this.entries[this.currentEntry]["AUTHOR"] );
-      // console.log('keywords=' +this.entries[this.currentEntry]["KEYWORDS"] );
+    //erneutes definieren&überschreiben von bestimmten Bibtextypes, wenn Keywords vorhanden. Nötig da Keywords nicht bekannt, ehe Key_value_list() ausgeführt wurde
+  var keywords= this.entries[this.currentEntry]["KEYWORDS"];
   
-  //erneutes definieren&überschreiben von bestimmten Bibtextypes, wenn Keywords vorhanden. Nötig da Keywords nicht bekannt, ehe Key_value_list() ausgeführt wurde
-var keywords= this.entries[this.currentEntry]["KEYWORDS"];
-if (keywords != undefined){
-	
-			if( directive == "@ONLINE" && keywords.includes('Portale')){
-				//Fall Webseite ->Portale				
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Portale/@online";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@PORTALE";
-			
-			}
-			else if(directive == "@ONLINE"&& keywords.includes('Anwendungen')){
-				//Fall Webseite ->Anwendungen	
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anwendungen/@online";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ANWENDUNGEN";
-			}
-		else if(directive == "@REPORT"&& keywords.includes('Fachliteratur')){
-				//Fall Bericht ->Fachliteratur	
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur/@report";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@FACHLITERATUR";
-			}
-			else if(directive == "@REPORT"&& keywords.includes('Statistische Angebote')){
-				//Fall Bericht-> Statistische Angebote
-				this.entries[this.currentEntry]["BIBTEXTYPE"] = " Statistische Angebote/@report";
-				this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@STATISTIK";
-			}	
-	}
-	
-	
-	
-	*/
+  if (keywords != undefined){
+    if( keywords.includes('Ziele')){   //hier Keywords/Zotero-Tags angeben, die zum Zuweisen des Dokuments in Gruppe führen, treffen 2 Keywords zu, so wird Zuordnung mit weiter unten stehender überschrieben
+          		
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ZIELE";
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-line-chart fa-flip-vertical'></i>"; //Icon, das zu Kategorie gehört
+      }        
+      if(keywords.includes('Fachliteratur')){
+          
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@FACHLITERATUR";
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-book'></i>";
+        }
+    if(keywords.includes('Gesetzliche Regelungen')){
+          			
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetzliche Regelungen";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@GESETZE";	
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-balance-scale'></i>";
+        }
+        if(keywords.includes('Statistische Angebote')){
+          //Fall Bericht-> Statistische Angebote
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = " Statistische Angebote";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@STATISTIK";
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-bar-chart'></i>";
+        }	
+            if(keywords.includes('Portale')){
+          				
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Portale";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@PORTALE";
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-bookmark-o'></i>";
+        }
+          if(keywords.includes('Anwendungen')){
+       
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anwendungen";
+          this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ANWENDUNGEN";
+          this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-star-o'></i>";
+        }
+    }
   };
   
 
-  this.directive = function () {
-  	// 	console.log('Das ist schritt 18');
+  this.directive = function () {  	
     this.match("@");
     return "@"+this.key();
   };
 
   this.string = function () {
-  	// 	console.log('Das ist schritt 19');
-    var kv = this.key_equals_value();
+      var kv = this.key_equals_value();
     this.strings[kv[0].toUpperCase()] = kv[1];
   };
 
   this.preamble = function() {
-  	// 	console.log('Das ist schritt 20');
-    this.value();
+  	this.value();
   };
 
   this.comment = function() {
-  	// 	console.log('Das ist schritt 21');
     this.pos = this.input.indexOf("}",this.pos);
   };
 
   this.entry = function(directive) {
-  	 	//console.log('Das ist schritt 22');
-    this.entry_body(directive);
+  	 this.entry_body(directive);
   };
 
   this.bibtex = function() {
-  	 //	console.log('Das ist schritt 23');
     var start = 0;
     var end = 0;
     while(this.tryMatch("@")) {
@@ -486,8 +367,9 @@ if (keywords != undefined){
       if (this.tryMatch(",")){
           this.match(",");
       }
-      // In case there is extra stuff in between entries
+      //Falls andere Texte (zb Überschriften) in .bib Datei stehen
       this.pos = end + this.input.substring(end,this.input.length).indexOf("@");
+      //nehme .bib code des entries für Ausgabe des Exportcodes
       this.entries[this.currentEntry]["BIBTEXRAW"] = this.input.substring(start,end);
     }
   };
@@ -495,11 +377,8 @@ if (keywords != undefined){
 /****End function bibtex_parser****/
 
 
-
+/***Beginn BibtexDisplay für Definition der Funktionen zum Schreiben der geparsten Informationen in Webseite */
 function BibtexDisplay() {
-	 	
-//console.log('BibtexDisplay aufgerufen schritt 24');
-
   this.invert = function (obj) {
     var new_obj = {};
 
@@ -510,16 +389,11 @@ function BibtexDisplay() {
  
       }
     }
-
     return new_obj;
   
   };
-  
-  function isSymbol(str) {
-  	 	//console.log('Das ist schritt 25');
-    return str.length === 1 && str.test(/[\W]/i);
-  }
-  
+ 
+ 
   //Regex Searchs used by fixValue in proper order
   this.regExps = [];
   this.regExps.push(new RegExp("\{\\\\\\W*\\w+\}")); // 1 {\[]}
@@ -529,7 +403,7 @@ function BibtexDisplay() {
   this.regExps.push(new RegExp("\\\\(?![:\\\\\])\\W{1}")); // 5
   
   this.fixValue = function (value) {
-  	//	console.log('Das ist schritt 26');
+    //Sonderzeichen erhalten
     do {
       var removeBrackets = value.match(/^\{(.*?)\}$/g, '$1');
       if(removeBrackets)  {
@@ -541,8 +415,6 @@ function BibtexDisplay() {
     var index = value.indexOf("\\");  //stelle an der "\\" in Daten steht
     if(index > -1) {									//if eingeschlagen, wenn "\\" an einer stelle vorkommt (index=-1, wenn es nie vorkommt)
       for(var exp in this.regExps) {
-      	//console.log('exp:' +exp);
-      	//console.log(this.regExps);
         do {
           var str = value.match(this.regExps[exp]);
           var key = (str)?str[0]:"";
@@ -550,16 +422,12 @@ function BibtexDisplay() {
             if(typeof(latex_to_unicode[key]) != "undefined")
             {
               value = value.replace(key,latex_to_unicode[key]);
-          //    console.log('if,if' +value);
             } else {
-            //	 console.log('if,else' +value);
               var newkey = key.replace(new RegExp("(\\w)"), '{$1}');
               if(typeof(latex_to_unicode[newkey]) != "undefined")
               {
-              //	 console.log('if,undefined' +value);
                 value = value.replace(key,latex_to_unicode[newkey]);
               } else {
-              	// console.log('if,not undefinde');
                 str = "";
               }
             }
@@ -568,15 +436,13 @@ function BibtexDisplay() {
           }
         } while(str.length);
       }
-       	//console.log('Das ist schritt 27 if');
     }
     value = value.replace(/[\{|\}]/g, '');
     return value;
   };
- 
+
  /*Autoren haben mehrere Felder in Zotero, die in .bib mit "and" verbunden sind, müssen daher hintereinander aufgelistet werden*/
   this.displayAuthor = function(string){
-  	// 	console.log('Das ist schritt 28');
   	string = string.replace(/[ ]*[\n\t][ ]*/g, " ");
   	string = string.replace(/[ ]+/g, " ");
   	
@@ -594,61 +460,52 @@ function BibtexDisplay() {
   
  /*Alle Felder von Annotation nach Links und Text durchsuchen und aufbereiten */
   this.displayAnnotation = function(string,urlall){
-   	//	console.log('Das ist schritt 28 display annotes');
- //	console.log('urlall:'+urlall);
-  	string = string.replace(/[ ]*[\n\t][ ]*/g, " ");  //string is value zu key ANNOTATION zb Text ## Seite
-  string = string.replace(/[ ]+/g, " "); //g steht für globale suche, statt nur erstes auftreten zu ersetzen
+   	string = string.replace(/[ ]*[\n\t][ ]*/g, " ");  //string is value zu key ANNOTATION zb Text ## Seite
+    string = string.replace(/[ ]+/g, " "); //g steht für globale suche, statt nur erstes auftreten zu ersetzen
 
 
    	var newString2 ="";
 
-  		if(string.includes('##')) {  		//nur wenn annotation auch ## enthalten
-
-  	var arrayStringP = string.split(new RegExp("##")); //Annotations in Teile vor und nach ## trennen (vorn Text, hinten Seitenzahl)
-  	//Zusammensetzen der Annotation-Ausgabe: Symbol, Seite (ist an 2. Stelle des arrayString), dann Doppelpunkt und Text
-  	//Zusammensetzen der URL: neues Fenster, allgemeine URL des Dok, Seite aus Annotation-string
-    newString2 = "<a href='"+ urlall + "#page=" + arrayStringP[1].trim() + "' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;&nbsp;S. "+ arrayStringP[1].trim() + ': ' + arrayStringP[0].trim() + "</a>"; 
-}
-
-  else if(string.includes('#L#')) {  		//nur wenn annotation auch #l# enthalten = extra links, zB Gesetze
-   //Annotes können _ nicht richtig verarbeiten und geben \_ aus bei Zotero .bib export (bei URL funktioniert das)
-   string = string.replace(/[\u005C]+/g, ""); //ersetze '\' (hier als unicode) global (g=an allen Stellen der annotes) mit '' (nichts)
-   	var arrayStringL = string.split(new RegExp("#L#")); //Annotations in Teile vor und nach ## trennen (vorn Text, hinten Seitenzahl)
-  	//Zusammensetzen der Annotation-Ausgabe: Symbol und Text
-  	//Zusammensetzen der URL: neues Fenster, URL aus Annotation-string
-     newString2 = "<a href='"+ arrayStringL[1].trim() + "' target='_blank'><i class='fa fa-file-o'></i>&nbsp;&nbsp; "+ arrayStringL[0].trim() + "</a>"; 
-}
-else{
-	//alle annotation die keine ## enthalten, so ausgeben mit Link zu allg Dokument
-	
-	 newString2 = "<a href='"+ urlall.trim() + "' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;&nbsp;"+ string.trim() + "</a>";
-	
-	}
-
-
-
+   if(string.includes('##')) {  		//nur wenn annotation auch ## enthalten = Hinweis auf Seitenzahl im Dokument
+    	var arrayStringP = string.split(new RegExp("##")); //Annotations in Teile vor und nach ## trennen (vorn Text, hinten Seitenzahl)
+  	  //Zusammensetzen der Annotation-Ausgabe: Symbol, Seite (ist an 2. Stelle des arrayString), dann Doppelpunkt und Text
+      //Zusammensetzen der URL: neues Fenster, allgemeine URL des Dok, Seite aus Annotation-string
+      newString2 = "<a href='"+ urlall + "#page=" + arrayStringP[1].trim() + "' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;&nbsp;S. "+ arrayStringP[1].trim() + ': ' + arrayStringP[0].trim() + "</a>"; 
+    }
+    else if(string.includes('#L#')) {  		//nur wenn annotation auch #l# enthalten = andere Links, zB Gesetze
+      //Annotes können _ nicht richtig verarbeiten und geben \_ aus bei Zotero .bib export (bei URL funktioniert das)
+      string = string.replace(/[\u005C]+/g, ""); //ersetze '\' (hier als unicode) global (g=an allen Stellen der annotes) mit '' (nichts)
+      var arrayStringL = string.split(new RegExp("#L#")); //Annotations in Teile vor und nach ## trennen (vorn Text, hinten Seitenzahl)
+      //Zusammensetzen der Annotation-Ausgabe: Symbol und Text
+      //Zusammensetzen der URL: neues Fenster, URL aus Annotation-string
+      newString2 = "<a href='"+ arrayStringL[1].trim() + "' target='_blank'><i class='fa fa-file-o'></i>&nbsp;&nbsp; "+ arrayStringL[0].trim() + "</a>"; 
+    }
+    else{
+      //alle annotation die keine ## enthalten, so ausgeben mit Link zu allg Dokument	
+      newString2 = "<a href='"+ urlall.trim() + "' target='_blank'><i class='fa fa-file-pdf-o'></i>&nbsp;&nbsp;"+ string.trim() + "</a>";	
+    }
 	return newString2;
   };
-
   
   this.createTemplate = function(entry, output){ //neu: output 	
- // Check if bibtex keys are limiting output (bibtexkeys="key1|key2|...|keyN") 5 neue Zeilen
+     //	Prüfen ob in HTML nur bestimmte Entries mit angegebenen bibtexkeys zugelassen werden, wenn ja gebe nur diese aus (zB bei Detailseite) 
         if (output[0].hasAttribute("bibtexkeys")) {
             var bitexkeys = output[0].getAttribute("bibtexkeys");
                 if (entry["BIBTEXKEY"] !== bitexkeys) //direkter Vergleich, da match() Endung "-1" des Bibkeys nicht beachtet, bei gl. Titel/Autor und Jahr-> Detailansicht würde alle entries ausgeben
                 return null;
         }
 	
-    // find template aus biblatex2.php
+    // find template aus html
     var tpl = $(".bibtex_template").clone().removeClass('bibtex_template');  
     
-    // find all keys in the entry und schriebe sie in Großbuchstaben
+    // finde alle keys (Author, date, url,...) im jeweiligem einzelnen Eintrag/entry und schreibe sie in Großbuchstaben und schreibe sie ins Array "keys"
     var keys = [];
     for (var key in entry) {        
       keys.push(key.toUpperCase());
     }
     
     // find all ifs and check them in bibtex_template in .php Dokument
+    //span mit "if" nur einblenden, wenn auch ein Wert vorhanden ist. Leere Teile des Templates werden so nicht ausgegeben z.B. wenn keine Notiz vorhanden ist, so wird in HTML "Inhalte:" nicht angezeigt
     var removed = false;
     do {
       // find next if
@@ -680,9 +537,8 @@ else{
       }
     } while (true);  //wiederhole class list, solange noch entries da sind
     
-    //The class bibtexVar prints a bibtex entry value within the tag's attributes. 
+    //ist in html ein Element mit Klasse "bibtexVar" und Angabe eines keys bei "extra" zu finden, so schreibe den Value zu diesem Key des entries in das Element
     tpl.find('.bibtexVar').each(function() {
-    	// 	console.log('Das ist schritt 30');
             var key = $(this).attr("extra").toUpperCase();
             var regEx = new RegExp('\\+' + key + '\\+', "gi");
             $.each(this.attributes, function(i, attrib) {
@@ -693,103 +549,45 @@ else{
 });
     
 
-    // fill in remaining fields 
+    // fülle alle weiteren Felder des Templates mit den Values zum jeweiligen key
     for (var index in keys) {
-    //		console.log('Das ist schritt 31');
       var key = keys[index];
       var value = entry[key] || "";
 
+      //Sonderfälle zu bestimmten Keys
       // Fill out bibtex raw and continue     
       if(key=="BIBTEXRAW") {
         tpl.find("." + key.toLowerCase()).html(value); 
          continue;   
       } 
       
+      //Autorenvalue enthält mehrere Autoren, Kommas und Verbindunsgwörter->seperate Behandlung
       if(key=="AUTHOR") {
       	      	value = this.displayAuthor(this.fixValue(value));
-    //  	console.log('author gefunden');
-      //	console.log(value);
       }
       
    
   		else if (key == "PAGES") {
                 value = value.replace("--", "-");
-        //        console.log('pages gefunden');
-          //      console.log(value);
       }
-    /*else if (key == "DATE") {							//Ddate macht fehler, moment nicht bekannt
-                value = moment(value).format(" YYYY");
-      }   */       
+    /*else if (key == "DATE") {							//Ddate macht fehler, da "moment" nicht bekannt
+                value = moment(value).format(" YYYY"); //hier könnte man Datum umformatieren
+      }   */     
+      
+      //Sonderzeichen in URL erhalten
       else if (key == "URL") {
                 value = value.replace(/\\url/g, '');
                 value = this.fixValue(value);
                 urlallg = this.fixValue(value);
-    
-
-              //  getStatus(urlallg);
-
-               
-              /*  function isValidURL(url) {
-                  //console.log(url);
-                 // var encodedURL = encodeURIComponent(url);
-                 // console.log (encodedURL);
-                  var isValid = false;
-              
-                  $.ajax({
-                    url: url,
-                    type: "get",
-                    async: false,
-                   
-                    success: function(data) {
-                      isValid = data.query.results != null;
-                    },
-                    error: function(){
-                      isValid = false;
-                    }
-                  });
-              
-                  return isValid;
-              }
-
-              var isValid = isValidURL(urlallg);
-              console.log(isValid ? "Valid URL!!!" : "Damn...");*/
-
-                /*function urlExists(url, callback) {
-                  fetch(url)
-                  .then(function(status) {
-                    callback(ok)
-                  }
-                  )};
-                
-                               
-                urlExists(urlallg, function(exists) {
-                  console.log('wirdgemacht')
-                  if (exists) {
-                    // it exists, do something
-                    console.log('url exists');
-                  } else {
-                    // it doesn't exist, do something else
-                    console.log('url 404 ');
-                  }
-                });*/
-
-
-
-              
-            //    console.log('url gefunden');
-              //  console.log(value);
       }  
  
-      
-       else if(key.includes('ANNOTATION'))  {
+      //Notiz mit URL zusammenführen, Notizen seperat behandeln
+      else if(key.includes('ANNOTATION'))  {
        	if (!urlallg){var urlallg="";}
       	value = this.displayAnnotation(this.fixValue(value), urlallg);
-      //	console.log(urlallg);
-      //	console.log(value);
       }    
 			else {
                 value = this.fixValue(value);
-                //console.log(value);
             }
 
       tpl.find("span:not(a)." + key.toLowerCase()).html(value);
@@ -804,20 +602,15 @@ else{
   };
   
   this.createArray = function(entries) {
-  	// 	console.log('Das ist schritt 32');
-    var entriesArray = [];
-    for(var entryKey in entries) {
-    	
+      var entriesArray = [];
+    for(var entryKey in entries) {    	
       entriesArray.push(entries[entryKey]);
-    }
-   
-    return entriesArray;
-  
+    }   
+    return entriesArray;  
   };
-  
+
   this.sortArray = function(array, key, rule, type) {
-  	 //	console.log('Das ist schritt 33');
-    var keyUpper = key.toUpperCase();
+  	var keyUpper = key.toUpperCase();
     array = array.sort(function(a,b) { 
       var aValue = "",
        bValue = "";
@@ -857,7 +650,8 @@ else{
   };
   
   this.createStructure = function(structure, output, entries, level)  {
-  	// 	console.log('Das ist schritt 34');
+    //Finden der sections (@fachliteratur, @ziele etc) und sortierten der Einträge in jeweilige group(=Kategorie)
+
     var MissingGroup = "Other Publications";
     //Used during the search
     level = level || 0;
@@ -884,10 +678,10 @@ else{
             return;
           }
         });
-      values.push(MissingGroup); //This is for checking none grouped publications
+      values.push(MissingGroup); //Dies ist für Dokumente ohne Kategorie
       
-      //Get the bibtex topics html here. for search
-      //https://github.com/pcooksey/bibtex-js/blob/master/wiki/extra.md#search-methods
+      //Get the bibtex topics html here. for jumping to category
+      //"Springe zu Kategorie" auf Suchseite
       var topics = $(".bibtex_topics");
         
       // Iterate through the values and recurively call this function
@@ -897,11 +691,11 @@ else{
         var newStruct = struct.clone();
         var groupNameValue = values[val];
        
-        //Add the header for the group
+        //Überschrift einer Kategorie/group ausgeben
              newStruct.children("." + groupName.toLowerCase()).first().prepend("<h" + (level + 1) + " class='" +
                     groupName + " "  + classann + "' id=\"" + groupNameValue + "\">" + this.fixValue(groupNameValue) + "</h" + (level + 1) + ">");
  
-        //Divide the array into group with groupNameValue
+        //Teile Array der Einträge in einzelne Kategoriegruppen groupNameValue
         splicedArray = $.grep(sortedArray, function(object, i) { 
             if(groupNameValue==MissingGroup) {
               return (typeof object[groupName] === "undefined")?true:false;
@@ -911,8 +705,7 @@ else{
           });
           
         if(splicedArray.length) {
-        //	 	console.log('Das ist schritt 35');
-          //Add the topic value to the topics structure if it exists on the page
+          //Add the topic value to the topics structure if it exists on the page ="Springe zu Kategorie auf Suchseite" und verlinken
           if(topics.length && level==0) {
             topics.append(" - <a href=\"#"+groupNameValue+"\"> "+groupNameValue+" </a>");
           }
@@ -947,7 +740,7 @@ else{
                 section.push($(this));
             });
 
-            //Get the bibtex topics html here.
+            //Get the bibtex topics html here. = "Springe zur Kategorie auf Suchseite"
             var topics = $(".bibtex_topics");
 
             // Iterate through the values and recurively call this function
@@ -996,7 +789,6 @@ else{
                 return globalStruct;
             }
         } else if(sortChild.length) {
-    	 //	console.log('Das ist schritt 37');
       var sortName = sortChild.attr('class').split(" ")[1].toUpperCase();
       var rule = sortChild.first().attr('extra').split(" ")[0];
       var type = sortChild.first().attr('extra').split(" ")[1];
@@ -1015,29 +807,27 @@ else{
                 var entry = entries[entryKey];
                 // Checking if web is set to visible
                 if (!entry["WEB"] || entry["WEB"].toUpperCase() != "NO") {
+                  //Aufruf, dass ein Template generiert werden soll, wo Einträge drin stehen
                     var tpl = this.createTemplate(entry, output);
-                    // Check if template was created
+                    // Prüfe ob Tepmlate angelegt wurde & wenn ja gebe es in HTML aus
                     if (tpl) {
                         structure.find(".templates").append(tpl);
                         tpl.show();
                     }
                 }
             }
-      return structure;
+      return structure; //return the current object at the end of every function for method chaining
     }
   };
 //////////////End of topic search
 
-
-
   this.displayBibtex = function(input, output) {
-  	 //	console.log('Das ist schritt 38');
-    // parse bibtex input
+    // parse bibtex input (den sting mit BibTex-Code)
     var b = new BibtexParser();
-    b.setInput(input); //hier ist es noch dabei
-   
+    b.setInput(input); 
+
     b.bibtex();
-    var entries = b.getEntries(); //entires = .bib file
+    var entries = b.getEntries(); //entires = key/value-pairs as objects from .bib-string
  
     // save old entries to remove them later
     var old = output.find("*");
@@ -1047,14 +837,12 @@ else{
      
          // If class="bibtex_structure" structure exists we need to do more complicated sorting with entries
         if (structure.length) {
-            // Create array for sorting
+            // Array mit allen Einträgen erstellen zum Sortieren nach Kategorien
             var entriesArray = this.createArray(entries);
-              //   console.dir  (entries);
-              //   console.log("38 abgeschlossen");
             this.createStructure(structure, output, entriesArray);
            
         } else {
-            // iterate over bibTeX entries
+            // iterate over bibTeX entries -> wenn keine Kategorien vorgegeben sind: einfache Ausgabe aller Einträge
             for (var entryKey in entries) {
                 var entry = entries[entryKey];
 
@@ -1071,18 +859,21 @@ else{
 };
 
 }
+/***Ende BibtexDisplay***/
 
-
+/**Aufruf von BibtexDisplay()und entfernen der Strukturelemente in HTML*/
 function bibtex_js_draw() {
-	 //	console.log('Das ist schritt 38 bibtex js draw');
     $(".bibtex_template").hide();
     if ($("#bibtex_input").length) {
+      //steht BibTeX-Code plain in HTML, so nimm ihn als string und erstelle BibtexDisplay
         (new BibtexDisplay()).displayBibtex($("#bibtex_input").val(), $("#bibtex_display"));
     } else {
+      //suche nach einem .bib-Dokument in mit <bibtex> umschlossenen Bereich
         //Gets the BibTex files and adds them together
         var bibstring = "";
         var requests = [];
-        // Create request for bibtex files
+
+        // Create request for bibtex files, get it as string
         $('bibtex').each(function(index, value) {
             var request = $.ajax({
                     url: $(this).attr('src'),
@@ -1095,17 +886,18 @@ function bibtex_js_draw() {
 
         // Executed on completion of last outstanding ajax call
         $.when.apply($, requests).then(function() {
-            // Check if we have a bibtex_display id or classes
+            // Check if we have a bibtex_display id or classes -> they are outputareas
             if ($("#bibtex_display").length) {
                 (new BibtexDisplay()).displayBibtex(bibstring, $("#bibtex_display"));
             } else if ($(".bibtex_display").length) {
                 // Loop through all bibtex_displays on the page
                 $(".bibtex_display").each(function(index) {
-                    // ($this) is the class node output for the bitex entries
+                    // ($this) is the class node output for the bibtex entries
                     (new BibtexDisplay()).displayBibtex(bibstring, $(this));
                 });
             }
-            loadExtras();
+            loadExtras(); //laden weiterer, zusätzlicher Funktionen für Suche etc.
+
             // Remove elements from html that are not needed to display
             $(".bibtex_structure").remove();
         });
@@ -1113,10 +905,11 @@ function bibtex_js_draw() {
 }
 
 /** 
-BibTex Searcher is used with input form
+BibTex Searcher mit Eingabe Suchfeld bei suche.php genutzt
+Ausblenden aller Entries, die Suchwort nicht enthalten
 */
 function BibTeXSearcher() {
-	 	//console.log('Das ist schritt 39 bibtexsearcher');
+
   this.inputArray = new Array("");
   this.inputLength = 0;
   
@@ -1182,8 +975,6 @@ function BibTeXSearcher() {
   };
    
   this.unhideAll = function() {
-  //	var heading = $(".heading2"); //var für Position der Überschrift festlegen
-  	// 	console.log('Das ist schritt 40');
      $("div#bibtex_display, div.bibtex_display").children().each(
         function () {
         	// $(heading).show();
@@ -1196,35 +987,14 @@ function BibTeXSearcher() {
   };
   
   this.hideEntry = function(word) {
-   	//console.log('Das ist schritt 41');
-  	 	//console.log('word: ' + word);
-    var funcCaller = this;   var container = $("div#bibtex_display, div.bibtex_display").children();
-   // var heading = $(".heading2"); //var für Position der Überschrift festlegen
-  // var heading = $("h2.hideIfDivEmpty").closest(".section").attr("id");
-//console.log('heading:' + heading);
-
-/*
-var headings = $(".hideIfDivEmpty");
-console.dir('heading:' + headings);
-headings.each(function () {
-    var heading = $(this);
-    var headingnext = heading.next();
-     var headingnextnext = headingnext.next();
-//container.hide();
-    if (headingnextnext.next().css('display')  === "none") { //schaut nur nach erstem also ziele, das ist nicht ausgeblendet
-        heading.hide();
-        console.log('leer');
-    }
-});*/
-
-
+      var funcCaller = this;   var container = $("div#bibtex_display, div.bibtex_display").children();
+   
         // No bibtex_structure search
    if (container.first().hasClass("bibtexentry")) {      
       container.each(
         function() {
           if(!funcCaller.checkEntry($(this),word)){
             $(this).hide();
-            	console.log('if if');
           } 
        });
    }   	
@@ -1239,32 +1009,21 @@ headings.each(function () {
                 	 $(this).hide();  //Eintrag verstecken
                 	//$(heading).hide();							//Überschrift verstecken, todo/wichtig: nur wenn gar kein Eintrag da ist
                 
-               	console.log('else if');
+           
               } else {																			//wenn Wort gefunden wird: lasse Eintrag stehen              	
-               shouldHide = false;
-             //  shouldHeadHide = false;
-                	//console.log('else else');
-                	// $(heading).show();
-              }
+                 shouldHide = false;
+                }
             });
           // Hides outside div, wenn inneres verborgen
-          if(shouldHide) {
-     			//	console.log('else if shouldhide');
+          if(shouldHide) {     		
             $(this).hide();         
           }
-         // if(shouldHeadHide) {
-     			//	console.log('else if shouldheadhide');
-            //$(this).heading.hide();
-            //hier muss explizit hide des äußeren noch genannt werden (heading)
-       
-         // }
-       }); 
+        }); 
    }
   };
   
   this.searcher = function(input, needToRestart) {
-  	 //	console.log('Das ist schritt 42');
-  	needToRestart = typeof needToRestart !== 'undefined' ? needToRestart : false;
+   	needToRestart = typeof needToRestart !== 'undefined' ? needToRestart : false;
     var string = input;
     if(string.length) {
       var splitInput = string.split("%");
@@ -1303,10 +1062,11 @@ headings.each(function () {
 /**End function bibtex_serarcher**/
 
 function createWebPage(defaultTemplate) {
-	// 	console.log('Das ist schritt 43');
+  //Zuerst aufgerufene Funktion
+  
   // draw bibtex when loaded
   $(document).ready(function () {
-    // check for template, add default
+    // prüft ob in HTML ein template verwendet wird, sonst ergänze default_template (dieses wird am Ende dieses Scripts definiert)
     if ($(".bibtex_template").length == 0) {
       $("body").append(defaultTemplate);
     }
@@ -1315,8 +1075,10 @@ function createWebPage(defaultTemplate) {
 }
 
 function loadExtras() { 
-	 //	console.log('Das ist schritt 44');
+	
   BibTeXSearcherClass = new BibTeXSearcher();
+
+  //Anlegen des Dropdownsuchfensters für Autoren bzw Schlägwörter, die in .bib enthalten sind
   $(".bibtex_author").each(function(i, obj) {
   	authorList($(this));
   });
@@ -1337,9 +1099,10 @@ function loadExtras() {
    } 
   });
   
+  //rufe combineSearcher auf, sobald ein Text ins suchfeld geschrieben wird
   $(".bibtex_search").each(function(i, obj) {
   	$(this).on('change', function(e) { 
-  		combineSearcher(BibTeXSearcherClass, true);
+  		combineSearcher(BibTeXSearcherClass, true); 
   		localStorage.setItem($(this).attr("id"), JSON.stringify($(this).val()));
   	});
   	$(this).keyup(function() { 
@@ -1352,8 +1115,8 @@ function loadExtras() {
 	  
 }
 
+
 function combineSearcher(searcherClass, needToRestart) {
-	 //	console.log('Das ist schritt 44');
   needToRestart = typeof needToRestart !== 'undefined' ? needToRestart : false;
   var string = "";
   $("select.bibtex_search").each(function(i, obj) {
@@ -1366,7 +1129,8 @@ function combineSearcher(searcherClass, needToRestart) {
   	  if(front!="") {
   	  	front += "=";
   	  }
-  	}
+    }
+    //wenn mehrere Suchbegriffe eingegeben werden: suche nach Dokumenten, wo alle vorkommen
   	if($(this).val()!="") {
   	  string += "%" +front+$(this).val();
   	}
@@ -1380,10 +1144,9 @@ function combineSearcher(searcherClass, needToRestart) {
 }
 
 function authorList(object) {
-	// 	console.log('Das ist schritt 45');
+  //	Funktionalität und Befüllen des Autoren-Such-Dropdowns
   var map = new Object();
-  $("span.author").each(function(i, obj) {
-  	
+  $("span.author").each(function(i, obj) {  	
   	arrayString = $(this).text().split(new RegExp(",[\\s]+and[\\s]+|,[\\s]+"));
   	if(object.attr("extra")=="first"){
   		map[arrayString[0]] = 1;  //nur erste Autoren
@@ -1396,12 +1159,10 @@ function authorList(object) {
 	  	  }
 	  	}
   	} 
-  }); 	 
-  
-    
-  
+  }); 	   
   var tuples = [];
   for (var key in map) tuples.push([key, key.split(" ").pop().toLowerCase()]);
+//Namen der Autoren nach Vor und Nachnamen trennen und sortieren. 
 //Sortieren aller Autoren nach alphabet
   tuples.sort(function(a, b) {
     a = a[1];
@@ -1424,10 +1185,9 @@ function authorList(object) {
 }
 
 
-/*Liste für Keywords, todo: sortierung*/
+/*Liste für Keywords dropdown für Suche, todo: sortierung*/
 function keywordsList(object) {
-	// 	console.log('Das ist schritt 46');
-  var map = new Object();
+ var map = new Object();
   $("span.keywords").each(function(i, obj) {
   
   	arrayString = $(this).text().split(new RegExp(",[\\s]+and[\\s]+|,[\\s]+"));
@@ -1455,7 +1215,7 @@ function keywordsList(object) {
     var key = tuples[i][0];
     var value = tuples[i][1];    
     var array = key.split(" "); 
-    var text = array.join(" "); //alle Elemente des Arrays als sting hintereinander auflisten, mit Leerzeichen dazwischen
+    var text = array.join(" "); //alle Elemente des Arrays als string hintereinander auflisten, mit Leerzeichen dazwischen
    // var text = array.pop()+", "+array.join(" "); //pop() löscht letztes Element des arrays, dieses wird an Anfang gestellt, getrennt mit Komma
 	object.append($("<option></option>").attr("value",key).text(text)); //alle umgestellten Keywords als Options in Dropdown einfügen
 	
@@ -1502,7 +1262,7 @@ if (!window.jQuery) {
         createWebPage(defaultTemplate);
     });
 } else {
-    // Create the webpage
+    // Initialisieren der Webseite und Beginn des Aufbaus
     createWebPage(defaultTemplate);
 }
 

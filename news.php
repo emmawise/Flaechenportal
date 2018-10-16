@@ -5,8 +5,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
-	<meta name="robots" content="index,follow" />
-	
+	<meta name="robots" content="index,follow" />	
 
 	<link href="Css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 	<link href="Css/font-awesome.min.css" rel="stylesheet" type="text/css" />
@@ -16,9 +15,8 @@
 	<link href="Css/mmenu-extensions/jquery.mmenu.shadows.css" rel="stylesheet" type="text/css" />
 	<link href="Css/mmenu-extensions/jquery.mmenu.borderstyle.css" rel="stylesheet" type="text/css" />
 	<link href="Css/screen.css" rel="stylesheet" type="text/css" />
-	<link href="Css/screen-fnp.css" rel="stylesheet" type="text/css" />
+	<link href="Css/screen-fp.css" rel="stylesheet" type="text/css" />
 	<script language="javascript" src="JavaScript/jquery.min.js" type="text/javascript"></script>
-	<!-- <script language="javascript" src="js/modernizr.min.js" type="text/javascript"></script> -->
 	<script language="javascript" src="JavaScript/bootstrap.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/bootstrap-dropdownhover.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/jquery.mmenu.all.min.js" type="text/javascript"></script>
@@ -26,18 +24,12 @@
 	<script language="javascript" src="JavaScript/jquery.headroom.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/headroom.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/default.js" type="text/javascript"></script>
-	<script language="javascript" src="JavaScript/parser.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/fp.js" type="text/javascript"></script>
-
-	
- 
 
 <?php 
 include 'rss.php';
-$bibkey = $_GET['bibkey'];
-
-
 ?>
+
 </head>
 <body>
 	
@@ -95,21 +87,6 @@ $bibkey = $_GET['bibkey'];
 	</div>
 </header>
 
-		<!--Einbinden der Bibtex Quelldatei-->
-<!--<bibtex src="Flaechennutzungsportal-la-kurz.bib"></bibtex>-->
-<!--<bibtex src="Flaechenportal.bib"></bibtex>
-<div id="bibtex_errors"></div>
-<div class="bibtex_structure">
-  <div class="sections bibtextypekey"> 
-  	<div class="section @anwendungen|@portale|@statistik|@gesetze|@fachliteratur|@ziele" id="@GESETZE" title="Aktuellste Einträge">	
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
-      	<a href="#top"><em>(nach oben)</em></a>	
-		</div>  
-  </div>
-</div>-->
-
 <section>
 	<div class="container">
 		<div class="row">
@@ -122,165 +99,23 @@ $bibkey = $_GET['bibkey'];
 				<hr />
 				<h4><a target="_blank" href="http://www.bbsr.bund.de">BBSR - Aktuelle Nachrichten zum Thema Raumentwicklung</h4>
 					<?php 
-					$anzahl2 = count ( $bbsr_posts );
-						
+					/* Ausgabe der RSS-Einträge, welche aus rss.php übergeben wurden*/
+					$anzahl2 = count ( $bbsr_posts );						
 					for ($y = 0; $y < $anzahl2; $y++)
 					{
 						echo  $bbsr_posts[$y];
-					}
-					
-					;?>
+					};?>
 				
 				<h4><a target="_blank" href="https://www.destatis.de"">RSS-Newsfeed des Statistischen Bundesamtes</h4>
 					<?php 
-					$anzahl = count ( $destatis_posts );
-						
+					$anzahl = count ( $destatis_posts );						
 					for ($x = 0; $x < $anzahl; $x++)
 					{
 						echo  $destatis_posts[$x];
-					}
-					
-					;?>
-
-			
-
-				<!--Filterbereich-->
-			<!--	<div class="panel panel-default accordeon">
-					<a class="collapsed" data-parent="#accordion" data-toggle="collapse" aria-controls="collapseTwo" href="#collapseTwo">
-						<div class="panel-heading" role="tab" id="headingTwo">
-							<i class="fa-filter fa pull-left"></i>
-							<h2 class="panel-title">Elemente filtern</h2>
-						</div>
-					</a>
-					<div class="panel-collapse collapse" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo">
-						<div class="panel-body">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox1" value="option1"> EU (5)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox2" value="option2"> Bund (24)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox3" value="option3"> Länder (29)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox4" value="option4"> Regionen (0)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox5" value="option5"> Städte & Gemeinden (0)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox6" value="option6"> NGOs, Verbände, Stiftungen (4)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox7" value="option7"> Wissenschaft (2)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox8" value="option8"> Sonstige (0)
-							</label>
-						</div>
-					</div>
-				</div>-->
-				<!--Ende Filterberiech-->
-		<!--		<div id="bibtex_display" bibtexkeys="bundesregierung_perspektiven_2002|bundesregierung_deutsche_2016">-->
-<!--	<div id="bibtex_display" >-->
-				<!-- Ausgabebereich der Einträge-->
-				<!--Template bestimmt Anordnung der Elemente, stylebiblio.css bestimmt Aussehen
-							mit class=if... können Leere Zeilen vermieden werden
-							Beginn Template eines Eintrags-->
-			<!--	<div class="bibtex_template">
-				<div class="media">
-					<div class="media-body">								
-						<div class="row">
-							<div class="col-sm-9 col-md-10">
-								<a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><h4 class="first"> <span class="title"> </span></h4></a>
-								
-									<div class="doc-body">
-										<p class="if abstract">
-									 <span class="abstract"></span>
-										</p>
-										 <div class="if annotation0">
-											<span class="bold">Inhalte:</span> 													
-											<ul class="list-unstyled doc">												
-												<li> <span class="if annotation0"> <span class="annotation0"></span></span></li>
-												<li><span class="if annotation1">  <span class="annotation1"></span></span></li>
-									    	<li><span class="if annotation2">  <span class="annotation2"></span></span></li>
-									    	<li><span class="if annotation3">  <span class="annotation3"></span></span></li>
-										   	<li><span class="if annotation4">  <span class="annotation4"></span></span></li>
-								 	 	  	<li><span class="if annotation5">  <span class="annotation5"></span></span></li>
-							 			   	<li><span class="if annotation6">  <span class="annotation6"></span></span></li>
-												<li><span class="if annotation7">  <span class="annotation7"></span></span></li>
-									    	<li><span class="if annotation8">  <span class="annotation8"></span></span></li>
-									     	<li><span class="if annotation9">  <span class="annotation9"></span></span></li>
-									     	<li><span class="if annotation10"> <span class="annotation10"></span></span></li>
-									     	<li><span class="if annotation11"> <span class="annotation11"></span></span></li>
-									     	<li><span class="if annotation12"> <span class="annotation12"></span></span></li>
-									     	<li><span class="if annotation13"> <span class="annotation13"></span></span></li>
-									     	<li><span class="if annotation14"> <span class="annotation14"></span></span></li>
-									     	<li><span class="if annotation15"> <span class="annotation15"></span></span></li>
-									     	<li><span class="if annotation16"> <span class="annotation16"></span></span></li>
-									     	<li><span class="if annotation17"> <span class="annotation17"></span></span></li>
-									     	<li><span class="if annotation18"> <span class="annotation18"></span></span></li>
-									     	<li><span class="if annotation19"> <span class="annotation19"></span></span></li>
-									     	<li><span class="if annotation20"> <span class="annotation20"></span></span></li>
-												
-											</ul>	
-										</div>	
-									
-									</div>					
-							</div>
-							<div class="col-sm-3 col-md-2">
-								<ul class="list-unstyled first">
-									<li><a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><i class="fa fa-search"></i>&nbsp;&nbsp;Detailansicht</a></li>
-									<li class="if url"><a class="bibtexVar" href="+URL+" extra="URL" target="_blank"><i class="fa fa-file-o"></i>&nbsp;&nbsp;Dokument aufrufen</a></li>
-									<li>			
-							 	
-								 			-->	     	
-								 			 <!--Bootstrap collapse wird ausgelöst bei Klick auf diesen Link...-->
-			<!--								<div>
-																			
-												
-													<a class="bibtexVar bibtexCodeLink noread" role="button" data-toggle="collapse" href="#bib+BIBTEXKEY+" 
-										            aria-expanded="false" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY">
-														<i class="fa fa-external-link"></i>&nbsp;&nbsp;Export (BibLaTeX)	
-												</a>
-											</div>
-									
-												 		
-								 		
-								 		
-								 		
-							 		</li>
-								</ul>
-							</div>
-						</div>
-					</div>-->
-							<!--...und klappt Feld auf mit .bib Eintrag des Elements
-											class "" bei bibtexraw bewirkt, dass suche nicht darauf ausgeführt wird-->
-											
-					<!--			<div class="bibtexVar collapse noread" id="bib+BIBTEXKEY+" extra="BIBTEXKEY">
-												&nbsp;	<i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;Hilfe: Untenstehenden BibLaTeX Code auswählen, in Zwischenablage kopieren, in Zoteros Hauptmenü 'Datei' > 'Importieren aus Zwischenablage' verwenden
-											  <br /> <button type="button" class="btn btn-primary" id="button1" onclick="CopyToClipboard('spanraw')">Code kopieren</button>
-											  <div id="hinweiscopy"></div>
-											  <div class="well">
-												<pre><span id="spanraw" class="bibtexraw noread"></span></pre>
-											  </div>
-											</div>   -->
-								<!--		<div class="bibtexVar collapse noread" id="bib+BIBTEXKEY+" extra="BIBTEXKEY">
-												&nbsp;<span class="help-block">	<i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;Hilfe: Untenstehenden BibLaTeX Code auswählen, in Zwischenablage kopieren, in Zoteros Hauptmenü 'Datei' - 'Importieren aus Zwischenablage' verwenden </span>
-											  <button type="button" class="bibtexVar btn btn-primary" id="button1" onclick="CopyToClipboard('spanraw+BIBTEXKEY+')" extra="BIBTEXKEY">Code kopieren</button>
-											  <div class="bibtexVar help-block"	 id="hinweiscopyspanraw+BIBTEXKEY+" extra="BIBTEXKEY"></div>
-											  <div class="well">
-													<pre><span class="bibtexVar" id="spanraw+BIBTEXKEY+" extra="BIBTEXKEY"><span class="bibtexraw noread"></span></span></pre>
-											  </div>
-										</div> 
-					</div>
-				</div>
-  -->
-	</div> 
-			
-</div>
-</div>
+					};?>
+			</div> 					
+		</div>
+	</div>
 	
 </section>
 <footer>
@@ -289,7 +124,7 @@ $bibkey = $_GET['bibkey'];
 			<div class="col-xs-12 col-sm-4 col-md-3">
 				<h4>Inhalt</h4>
 				<ul>
-							<li><a href="ziele.php">Ziele</a></li>
+					<li><a href="ziele.php">Ziele</a></li>
 					<li><a href="gesetz.php">Gesetzliche Regelungen</a></li>			
 					<li><a href="stat.php">Statistische Angebote</a></li>
 					<li><a href="port.php">Portale</a></li>	

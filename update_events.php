@@ -1,8 +1,6 @@
-﻿		<?php  
+﻿<?php  
+/**Erhält von events.js das JSON aller events aus der API und speichert es auf dem Server zwischen*/
 $string = $_POST['myData'];
-
-echo ($string);
 $file = "./data/events.json";
 file_put_contents($file, $string);
-
-	?>
+?>

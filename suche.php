@@ -15,9 +15,8 @@
 	<link href="Css/mmenu-extensions/jquery.mmenu.shadows.css" rel="stylesheet" type="text/css" />
 	<link href="Css/mmenu-extensions/jquery.mmenu.borderstyle.css" rel="stylesheet" type="text/css" />
 	<link href="Css/screen.css" rel="stylesheet" type="text/css" />
-	<link href="Css/screen-fnp.css" rel="stylesheet" type="text/css" />
+	<link href="Css/screen-fp.css" rel="stylesheet" type="text/css" />
 	<script language="javascript" src="JavaScript/jquery.min.js" type="text/javascript"></script>
-	<!-- <script language="javascript" src="js/modernizr.min.js" type="text/javascript"></script> -->
 	<script language="javascript" src="JavaScript/bootstrap.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/bootstrap-dropdownhover.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/jquery.mmenu.all.min.js" type="text/javascript"></script>
@@ -29,14 +28,12 @@
 	<script language="javascript" src="JavaScript/fp.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/parser.js" type="text/javascript"></script>
 
-	
-
-	<?php $bibkey = $_GET['bibkey'];
+	<?php 
+	/* Erhalten des Suchbegriffs von anderen Unterseiten*/
 	$query = $_GET['q'];
 	?>
-
 </head>
-	<body>
+<body>
 
 <div class="page">
 	
@@ -69,13 +66,13 @@
 				<li><a href="glossar.php">Glossar</a></li>
 				<li class="active"><a href="suche.php">Suche</a></li>
 				<li>
-						<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
-							<div class="navbar-form navbar-search form-group">
-								<div class="input-icon search">
-									<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
-								</div>
+					<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
+						<div class="navbar-form navbar-search form-group">
+							<div class="input-icon search">
+								<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+							</div>
 						</div>
-				</form>
+					</form>
 				</li>
 			</ul>
 		</div>
@@ -92,136 +89,103 @@
 	</div>
 </header>
 	
-		<!--Einbinden der Bibtex Quelldatei-->
-<!--<bibtex src="Flaechennutzungsportal-la-kurz.bib"></bibtex>-->
-<bibtex src="Flaechenportal.bib"></bibtex>
+<!--Einbinden der Bibtex Quelldatei-->
+<bibtex src="./data/Flaechenportal.bib"></bibtex>
 
 <div id="bibtex_errors"></div>
 
-
-
+<!--Beginn bib_structure: Reihenfolge und Überschriften (h2) für Ausgabe der Dokumentenarten/Kategorien-->
 <div class="bibtex_structure">
   <div class="sections bibtextypekey">
-  
-  <!--
-  		<div class="section @misc" title="Ziele (Dokument/@misc)"></div>   	
-  	  <div class="section @legislation" title="Gesetzliche Regelungen (Gesetze/@legislation)"></div>  	  
-  	  <div class="section @portale" title="Portale (Webseite/@portale)"></div>  
-  	  <div class="section @anwendungen" title="Anwendungen (Webseite/@anwendungen)"></div> 
-      <div class="section @unpublished|@article|@fachliteratur" title="Fachliteratur (Vortrag/@unpublished@article@fachliteratur)"></div>                       
-      <div class="section @statistik" title="Statistische Angebote(Bericht/@statistik)"></div>   
-      <div class="section @inreference" title="Glossar (Enzyklopädieartikel/@inreference)"></div> 
-      <div class="section @report" title="Sonstige Berichte @report "></div>  
-  	  <div class="section @online" title="Sonstige Webseite/@online)"></div> 
--->
-
-	<div class="section @ziele" id="@ZIELE" title="Ziele">
-		 <h2 class="hideIfDivEmpty">Ziele</h2>
+	<div class="section @ziele" id="@ZIELE">
+		 <h2><i class="fa fa-line-chart  fa-flip-vertical "></i>&nbsp;&nbsp;Ziele</h2>
       <div class="sort date" extra="DESC string">
         <div class="templates"></div>
       </div>	
       	<a href="#top"><em>(nach oben)</em></a>	
-		</div>  	
-  	<div class="section @fachliteratur" id="@FACHLITERATUR" title="Fachliteratur">
-		 <h2 class="hideIfDivEmpty">Fachliteratur</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div>  	
+  	<div class="section @fachliteratur" id="@FACHLITERATUR">
+		<h2><i class="fa fa-book"></i>&nbsp;&nbsp;Fachliteratur</h2>
+     	<div class="sort date" extra="DESC string">
+      	  <div class="templates"></div>
+     	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  	  
-	<div class="section @gesetze" id="@GESETZE" title="Gesetzliche Regelungen">
-	 <h2 class="hideIfDivEmpty">Gesetzliche Regelungen</h2>
-      <div class="sort date" extra="DESC string">
-      		
-        <div class="templates"></div>
-      </div>	
+	</div>  	  
+	<div class="section @gesetze" id="@GESETZE">
+	 	<h2><i class="fa fa-balance-scale"></i>&nbsp;&nbsp;Gesetzliche Regelungen</h2>
+     	<div class="sort date" extra="DESC string">      		
+        	<div class="templates"></div>
+    	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  
-					<div class="section @statistik" id="@STATISTIK" title="Statistische Angebote" >
-		 <h2 class="hideIfDivEmpty">Statistische Angebote</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>
+	</div>  
+	<div class="section @statistik" id="@STATISTIK">
+			<h2><i class="fa fa-bar-chart"></i>&nbsp;&nbsp;Statistische Angebote</h2>
+      	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+      	</div>
       	<a href="#top" ><em>(nach oben)</em></a>		
-		</div>  		
-		<div class="section @portale" id="@PORTALE" title="Portale">
-		 <h2 class="hideIfDivEmpty">Portale</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
-   	<a href="#top"><em>(nach oben)</em></a>   	
-		</div>  
-						<div class="section @anwendungen" id="@ANWENDUNGEN" title="Anwendungen">
-		 <h2 class="hideIfDivEmpty">Anwendungen</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div>  		
+	<div class="section @portale" id="@PORTALE">
+		<h2><i class="fa fa-bookmark-o"></i>&nbsp;&nbsp;Portale</h2>
+      	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+      	</div>	
+   		<a href="#top"><em>(nach oben)</em></a>   	
+	</div>  
+	<div class="section @anwendungen" id="@ANWENDUNGEN">
+		<h2><i class="fa fa-star-o"></i>&nbsp;&nbsp;Anwendungen</h2>
+    	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+      	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div> 
-		
-
-		<div class="section @inreference" id="@INREFERENCE" title="Glossarbegriffe">
-		 <h2 class="hideIfDivEmpty">Glossarbegriffe</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>
+	</div> 	
+	<div class="section @inreference" id="@INREFERENCE">
+		<h2>Glossarbegriffe</h2>
+      	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+      	</div>
       	<a href="#top" ><em>(nach oben)</em></a>		
-		</div> 
-		
-		
-		
-			<div class="section @misc" id="@misc" title="Sonstige Ziele (@misc)">
-		 <h2 class="hideIfDivEmpty">Sonstige Ziele (@misc)</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div> 
+	<div class="section @misc" id="@MISC">
+		<h2>Sonstige Ziele (@misc)</h2>
+      	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+    	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  
-			<div class="section @unpublished|@article" id="@UNPUBLISHED|@ARTICLE" title="Sonstige Fachliteratur (Vortrag/@unpublished@article)">
-		 <h2 class="hideIfDivEmpty">Sonstige Fachliteratur (Vortrag/@unpublished@article)</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div>  
+	<div class="section @unpublished|@article" id="@UNPUBLISHED|@ARTICLE">
+		<h2>Sonstige Fachliteratur (Vortrag/@unpublished@article)</h2>
+      	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+      	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  
-		<div class="section @legislation" id="@LEGISLATION" title="Sonstige gesetzliche Regelungen (Gesetze/@legislation)">
-	 <h2 class="hideIfDivEmpty">Sonstige gesetzliche Regelungen (Gesetze/@legislation)</h2>
-      <div class="sort date" extra="DESC string">
-      		
-        <div class="templates"></div>
-      </div>	
+	</div>  
+	<div class="section @legislation" id="@LEGISLATION" >
+		<h2>Sonstige gesetzliche Regelungen (Gesetze/@legislation)</h2>
+      	<div class="sort date" extra="DESC string">      		
+       		<div class="templates"></div>
+    	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>
-	
- 
-		<div class="section @report" id="@REPORT" title="Sonstige Berichte (@report)">
-		 <h2 class="hideIfDivEmpty">Sonstige Berichte (@report)</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div>
+	<div class="section @report" id="@REPORT">
+		<h2>Sonstige Berichte (@report)</h2>
+    	<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+    	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  
-		<div class="section @online" id="@ONLINE" title="Sonstige Webseite (@online)">
-		 <h2 class="hideIfDivEmpty">Sonstige Webseite (@online)</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
+	</div>  
+	<div class="section @online" id="@ONLINE">
+		<h2>Sonstige Webseite (@online)</h2>
+		<div class="sort date" extra="DESC string">
+        	<div class="templates"></div>
+    	</div>	
       	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  
-	<!--	<div class="section @incollection" id="@INCOLLECTION" title="anderes(INCOLLECTION)">
-		 <h2 class="hideIfDivEmpty">anderes</h2>
-      <div class="sort date" extra="DESC string">
-        <div class="templates"></div>
-      </div>	
-      	<a href="#top" ><em>(nach oben)</em></a>	
-		</div>  -->
+	</div>   
+ </div>
+</div>
+<!--Ende Bibstructure-->
 
-     
-       
-      </div>
-  </div>
-
-
+<!--Beginn Bereich, der auf Webseite ausgegeben wird-->
 <section>
 	<div class="container">
 		<div class="row">
@@ -230,180 +194,135 @@
 					<li><a href="index.html"><i class="fa fa-home"></i></a></li>
 					<li class="active">Suche</li>
 				</ol>
-					<h3><i class="fa fa-search"></i>&nbsp;&nbsp;Suche</h3><hr/>
-	<div class="searchbar">
-		<div>
-			<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
-		</div>
-		<div >
-			<input type="text" class="bibtex_search form-control" id="searchbar" placeholder="Suche nach Autoren, Themen, Schlagwörtern,..." value="<?php if ($query) {echo($query);}?>" >
-			<span class="help-block">Beispiel: Klimawandel Bund (findet Übereinstimmungen beider Terme)</span>
-		</div>
-	<!--	<div class="div-inline" >
-			<select id="authorselectfirst" class="btn bibtex_search bibtex_author" style="border: 1px solid lightgrey;" extra="first" search="author">
-			  <option value="">Suche nach erstem Autor</option>
-			</select>
-		</div>-->
-		<p>Erweiterte Suche:</p>
-		<div class="div-inline" >
-			<select id="authorselect" class="btn bibtex_search bibtex_author"  search="author">
-			  <option value="">Suche unter allen Autoren</option>
-			</select>
-		</div>
-			<div class="div-inline" >
-			<select id="authorselect" class="btn bibtex_search bibtex_keywords" search="keywords">
-			  <option value="">Suche unter allen Keywords</option>
-			</select>
-		</div>
-		<div class="div-inline" >
-			<select id="topicselect" class="btn bibtex_search" >
-			  <option value="">Vorgegebene Themen</option>
-			  <!-- Add topic values here -->
-			  <option value="Bodenschutz">Bodenschutz</option>
-			    <option value="Klimaschutz">Klimaschutz</option>
-			     <option value="Flächenverbrauch">Flächenverbrauch</option>
-			</select>
-		</div>
-		
-	</div>
-
-			<h3> Springe zu Kategorie:</h3>
-<!--Links zu Eintragsarten auflisten-->
-<div class="bibtex_topics"> </div>
-				<!--Filterbereich-->
-			<!--	<div class="panel panel-default accordeon">
-					<a class="collapsed" data-parent="#accordion" data-toggle="collapse" aria-controls="collapseTwo" href="#collapseTwo">
-						<div class="panel-heading" role="tab" id="headingTwo">
-							<i class="fa-filter fa pull-left"></i>
-							<h2 class="panel-title">Elemente filtern</h2>
-						</div>
-					</a>
-					<div class="panel-collapse collapse" role="tabpanel" id="collapseTwo" aria-labelledby="headingTwo">
-						<div class="panel-body">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox1" value="option1"> EU (5)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox2" value="option2"> Bund (24)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox3" value="option3"> Länder (29)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox4" value="option4"> Regionen (0)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox5" value="option5"> Städte & Gemeinden (0)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox6" value="option6"> NGOs, Verbände, Stiftungen (4)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox7" value="option7"> Wissenschaft (2)
-							</label>
-							<label class="checkbox-inline">
-								<input type="checkbox" id="inlineCheckbox8" value="option8"> Sonstige (0)
-							</label>
-						</div>
+				<h3><i class="fa fa-search"></i>&nbsp;&nbsp;Suche</h3><hr/>
+				<!--Eingabe und Einstellungsbereich-->			
+				<div class="searchbar">
+					<div>
+						<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
 					</div>
-				</div>-->
-				<!--Ende Filterberiech-->
-		<!--		<div id="bibtex_display" bibtexkeys="bundesregierung_perspektiven_2002|bundesregierung_deutsche_2016">-->
-	<div id="bibtex_display" >
-				<!-- Ausgabebereich der Einträge-->
-				<!--Template bestimmt Anordnung der Elemente, stylebiblio.css bestimmt Aussehen
+					<div>
+						<input type="text" class="bibtex_search form-control" id="searchbar" placeholder="Suche nach Autoren, Themen, Schlagwörtern,..." value="<?php if ($query) {echo($query);}?>" >
+						<span class="help-block">Beispiel: Klimawandel Bund (findet Übereinstimmungen beider Terme)</span>
+					</div>
+
+					<p>Erweiterte Suche:</p>
+					<div class="div-inline" >
+						<select id="authorselect" class="btn bibtex_search bibtex_author"  search="author">
+							<option value="">Suche unter allen Autoren</option>
+						</select>
+					</div>
+						<div class="div-inline" >
+						<select id="authorselect" class="btn bibtex_search bibtex_keywords" search="keywords">
+							<option value="">Suche unter allen Keywords</option>
+						</select>
+					</div>
+					<div class="div-inline" >
+						<select id="topicselect" class="btn bibtex_search" >
+							<option value="">Vorgegebene Themen</option>
+							<!-- Add topic values here -->
+							<option value="Bodenschutz">Bodenschutz</option>
+							<option value="Klimaschutz">Klimaschutz</option>
+							<option value="Flächenverbrauch">Flächenverbrauch</option>
+						</select>
+					</div>		
+				</div>
+				<!---Ende Eingabebereich-->
+				
+				<!--Links zu Eintragsarten auflisten-->
+				<h3> Springe zu Kategorie:</h3>	
+				<div class="bibtex_topics"> </div>
+
+				<!-- Ausgabebereich der Einträge-->	
+				<div id="bibtex_display" >				
+					<!--Template bestimmt Anordnung der Elemente, screen-fnp.css bestimmt Aussehen
 							mit class=if... können Leere Zeilen vermieden werden
-							Beginn Template eines Eintrags-->
-				<div class="bibtex_template">
-				<div class="media">
-					<div class="media-body">								
-						<div class="row">
-							<div class="col-sm-9 col-md-10">
-								<a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><h4 class="first"> <span class="title"> </span></h4></a>								
-									<div class="doc-body">
-										<p class="if abstract">
-											<span class="abstract"></span>
-										</p>
+					Beginn Template eines Eintrags-->
+					<div class="bibtex_template">
+						<div class="media">
+							<div class="media-body">								
+								<div class="row">
+									<div class="col-sm-9 col-md-10">
+										<a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><h4 class="first"> <span class="title"> </span></h4></a>								
+										<div class="doc-body">
+											<p class="if abstract">
+												<span class="abstract"></span>
+											</p>
 											<p class="if keywords" style="display:none;">
-										 <span class="keywords"></span>
-										</p>
+												<span class="keywords"></span>
+											</p>
 											<p class="if author" style="display:none;">
-										 <span class="author"></span>
-										</p>
-										 <div class="if annotation0">
-											<span class="bold">Inhalte:</span> 													
-											<ul class="list-unstyled doc">												
-												<li><span class="if annotation0">  <span class="annotation0"></span></span></li>
-												<li><span class="if annotation1">  <span class="annotation1"></span></span></li>
-									    	<li><span class="if annotation2">  <span class="annotation2"></span></span></li>
-									    	<li><span class="if annotation3">  <span class="annotation3"></span></span></li>
-										   	<li><span class="if annotation4">  <span class="annotation4"></span></span></li>
-								 	 	  	<li><span class="if annotation5">  <span class="annotation5"></span></span></li>
-							 			   	<li><span class="if annotation6">  <span class="annotation6"></span></span></li>
-												<li><span class="if annotation7">  <span class="annotation7"></span></span></li>
-									    	<li><span class="if annotation8">  <span class="annotation8"></span></span></li>
-									     	<li><span class="if annotation9">  <span class="annotation9"></span></span></li>
-									     	<li><span class="if annotation10"> <span class="annotation10"></span></span></li>
-									     	<li><span class="if annotation11"> <span class="annotation11"></span></span></li>
-									     	<li><span class="if annotation12"> <span class="annotation12"></span></span></li>
-									     	<li><span class="if annotation13"> <span class="annotation13"></span></span></li>
-									     	<li><span class="if annotation14"> <span class="annotation14"></span></span></li>
-									     	<li><span class="if annotation15"> <span class="annotation15"></span></span></li>
-									     	<li><span class="if annotation16"> <span class="annotation16"></span></span></li>
-									     	<li><span class="if annotation17"> <span class="annotation17"></span></span></li>
-									     	<li><span class="if annotation18"> <span class="annotation18"></span></span></li>
-									     	<li><span class="if annotation19"> <span class="annotation19"></span></span></li>
-									     	<li><span class="if annotation20"> <span class="annotation20"></span></span></li>												
-											</ul>	
-										</div>											
-									</div>	
-							</div>
-							<div class="col-sm-3 col-md-2">
-								<ul class="list-unstyled first">
-									<li><a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><i class="fa fa-search"></i>&nbsp;&nbsp;Detailansicht</a></li>
-									<li class="if url"><a class="bibtexVar" href="+URL+" extra="URL" target="_blank"><i class="fa fa-file-o"></i>&nbsp;&nbsp;Dokument aufrufen</a></li>
-									<li>					 							 				   	
-								 		 <!--Bootstrap collapse wird ausgelöst bei Klick auf diesen Link...-->
-											<div>								
-												<a class="bibtexVar bibtexCodeLink noread" role="button" data-toggle="collapse" href="#bib+BIBTEXKEY+" 
-										            aria-expanded="false" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY">
+												<span class="author"></span>
+											</p>
+											<div class="if annotation0">
+												<span class="bold">Inhalte:</span> 													
+												<ul class="list-unstyled doc">												
+													<li><span class="if annotation0">  <span class="annotation0"></span></span></li>
+													<li><span class="if annotation1">  <span class="annotation1"></span></span></li>
+													<li><span class="if annotation2">  <span class="annotation2"></span></span></li>
+													<li><span class="if annotation3">  <span class="annotation3"></span></span></li>
+													<li><span class="if annotation4">  <span class="annotation4"></span></span></li>
+													<li><span class="if annotation5">  <span class="annotation5"></span></span></li>
+													<li><span class="if annotation6">  <span class="annotation6"></span></span></li>
+													<li><span class="if annotation7">  <span class="annotation7"></span></span></li>
+													<li><span class="if annotation8">  <span class="annotation8"></span></span></li>
+													<li><span class="if annotation9">  <span class="annotation9"></span></span></li>
+													<li><span class="if annotation10"> <span class="annotation10"></span></span></li>
+													<li><span class="if annotation11"> <span class="annotation11"></span></span></li>
+													<li><span class="if annotation12"> <span class="annotation12"></span></span></li>
+													<li><span class="if annotation13"> <span class="annotation13"></span></span></li>
+													<li><span class="if annotation14"> <span class="annotation14"></span></span></li>
+													<li><span class="if annotation15"> <span class="annotation15"></span></span></li>
+													<li><span class="if annotation16"> <span class="annotation16"></span></span></li>
+													<li><span class="if annotation17"> <span class="annotation17"></span></span></li>
+													<li><span class="if annotation18"> <span class="annotation18"></span></span></li>
+													<li><span class="if annotation19"> <span class="annotation19"></span></span></li>
+													<li><span class="if annotation20"> <span class="annotation20"></span></span></li>												
+												</ul>	
+											</div>											
+										</div>	
+									</div>
+									<div class="col-sm-3 col-md-2">
+										<ul class="list-unstyled first">
+											<li><a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><i class="fa fa-search"></i>&nbsp;&nbsp;Detailansicht</a></li>
+											<li class="if url"><a class="bibtexVar" href="+URL+" extra="URL" target="_blank"><i class="fa fa-file-o"></i>&nbsp;&nbsp;Dokument aufrufen</a></li>
+											<li>					 							 				   	
+											<!--Bootstrap collapse wird ausgelöst bei Klick auf diesen Link...-->
+												<div>								
+													<a class="bibtexVar bibtexCodeLink noread" role="button" data-toggle="collapse" href="#bib+BIBTEXKEY+" 
+														aria-expanded="false" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY">
 														<i class="fa fa-external-link"></i>&nbsp;&nbsp;Export (BibLaTeX)	
-												</a>
-											</div>																			 		
-							 		</li>
-								</ul>
-							</div>								
+													</a>
+												</div>																			 		
+											</li>
+										</ul>
+									</div>								
+								</div>
+							</div>
+							<!--...und klappt Feld auf mit .bib Eintrag des Elements; class "noread" bei bibtexraw bewirkt, dass suche nicht darauf ausgeführt wird-->
+							<div class="bibtexVar collapse noread" id="bib+BIBTEXKEY+" extra="BIBTEXKEY">
+								&nbsp;<span class="help-block">	<i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;Hilfe: Untenstehenden BibLaTeX Code auswählen, in Zwischenablage kopieren, in Zoteros Hauptmenü 'Datei' - 'Importieren aus Zwischenablage' verwenden </span>
+								<button type="button" class="bibtexVar btn btn-primary" id="button1" onclick="CopyToClipboard('spanraw+BIBTEXKEY+')" extra="BIBTEXKEY">Code kopieren</button>
+								<div class="bibtexVar help-block"	 id="hinweiscopyspanraw+BIBTEXKEY+" extra="BIBTEXKEY"></div>
+								<div class="well">
+									<pre><span class="bibtexVar" id="spanraw+BIBTEXKEY+" extra="BIBTEXKEY"><span class="bibtexraw noread"></span></span></pre>
+								</div>
+							</div>   
 						</div>
 					</div>
-							<!--...und klappt Feld auf mit .bib Eintrag des Elements
-											class "" bei bibtexraw bewirkt, dass suche nicht darauf ausgeführt wird-->
-				  				<div class="bibtexVar collapse noread" id="bib+BIBTEXKEY+" extra="BIBTEXKEY">
-												&nbsp;<span class="help-block">	<i class="fa fa-question-circle-o" aria-hidden="true"></i>&nbsp;Hilfe: Untenstehenden BibLaTeX Code auswählen, in Zwischenablage kopieren, in Zoteros Hauptmenü 'Datei' - 'Importieren aus Zwischenablage' verwenden </span>
-											  <button type="button" class="bibtexVar btn btn-primary" id="button1" onclick="CopyToClipboard('spanraw+BIBTEXKEY+')" extra="BIBTEXKEY">Code kopieren</button>
-											  <div class="bibtexVar help-block"	 id="hinweiscopyspanraw+BIBTEXKEY+" extra="BIBTEXKEY"></div>
-											  <div class="well">
-													<pre><span class="bibtexVar" id="spanraw+BIBTEXKEY+" extra="BIBTEXKEY"><span class="bibtexraw noread"></span></span></pre>
-											  </div>
-									</div>   
 				</div>
-					</div>
-				</div>
-
-  </div>
-</div> 
-
-			
+				<!-- Ende Ausgabebereich der Einträge-->	 
+			</div>  
 		</div>
-
-	
+	</div>	
 </section>
+<!---Ende Hauptbereich der Seite, Beginn des abschließenden Footers-->
 <footer>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-4 col-md-3">
 				<h4>Inhalt</h4>
-<ul>
-									<li><a href="ziele.php">Ziele</a></li>
+				<ul>
+					<li><a href="ziele.php">Ziele</a></li>
 					<li><a href="gesetz.php">Gesetzliche Regelungen</a></li>			
 					<li><a href="stat.php">Statistische Angebote</a></li>
 					<li><a href="port.php">Portale</a></li>	
@@ -429,6 +348,7 @@
 			</div>
 		</div>
 	</div>
+	<!--schmaler blauer Balken als abschließendes Element-->
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-10">

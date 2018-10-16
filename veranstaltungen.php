@@ -15,9 +15,8 @@
 	<link href="Css/mmenu-extensions/jquery.mmenu.shadows.css" rel="stylesheet" type="text/css" />
 	<link href="Css/mmenu-extensions/jquery.mmenu.borderstyle.css" rel="stylesheet" type="text/css" />
 	<link href="Css/screen.css" rel="stylesheet" type="text/css" />
-	<link href="Css/screen-fnp.css" rel="stylesheet" type="text/css" />
+	<link href="Css/screen-fp.css" rel="stylesheet" type="text/css" />
 	<script language="javascript" src="JavaScript/jquery.min.js" type="text/javascript"></script>
-	<!-- <script language="javascript" src="js/modernizr.min.js" type="text/javascript"></script> -->
 	<script language="javascript" src="JavaScript/bootstrap.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/bootstrap-dropdownhover.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/jquery.mmenu.all.min.js" type="text/javascript"></script>
@@ -25,13 +24,8 @@
 	<script language="javascript" src="JavaScript/jquery.headroom.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/headroom.min.js" type="text/javascript"></script>
 	<script language="javascript" src="JavaScript/default.js" type="text/javascript"></script>
-
 	<script language="javascript" src="JavaScript/events.js" type="text/javascript"></script>
 
-
-
-
-<?php $bibkey = $_GET['bibkey'];?>
 </head>
 <body>
 	
@@ -99,24 +93,23 @@
 				</ol>
 				<h3><i class="fa fa-line-chart"></i>&nbsp;&nbsp;Veranstaltungen</h3>
 				<p>Workshops, Tagungen und Events in der Übersicht.</p>
-
 				<div class="media">
-					<div class="media-body">		
+					<div class="media-body">	
+						<!--Hier fügt events.js die Liste der Veranstaltungen ein--->	
 						<div id="doc-body"></div>		
 					</div>
 				</div>		
 			</div>  
 		</div> 			
 	</div>	
-</section>
-	
+</section>	
 <footer>
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-4 col-md-3">
 				<h4>Inhalt</h4>
-<ul>
-								<li><a href="ziele.php">Ziele</a></li>
+				<ul>
+					<li><a href="ziele.php">Ziele</a></li>
 					<li><a href="gesetz.php">Gesetzliche Regelungen</a></li>			
 					<li><a href="stat.php">Statistische Angebote</a></li>
 					<li><a href="port.php">Portale</a></li>	
@@ -153,7 +146,5 @@
 </footer>
 </div>
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" media="all">
-	
-
 </body>
 </html>
