@@ -252,6 +252,10 @@ margin-top:3px;
 .modal-backdrop{
 display:none;
 }
+
+.download{
+font-size:80%;
+}
 	
 /* Veranstaltungen: unter jedes Event kleinen Abstand und Linie*/  
 .last-p{

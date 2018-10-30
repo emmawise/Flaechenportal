@@ -62,7 +62,7 @@
 					<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
 						<div class="navbar-form navbar-search form-group">
 							<div class="input-icon search">
-								<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+								<input type="text" class="form-control" id="inputSearch" placeholder="Portal durchsuchen..." name="search"/>		
 							</div>
 						</div>
 					</form>
@@ -113,7 +113,19 @@
 				</ol>
 				<h3><i class="fa fa-star-o"></i>&nbsp;&nbsp;Anwendungen</h3>
 				<p>Instrumente und Dienste zur Unterstützung eines Flächenmanagement aus der Praxis. Dies umfasst GIS-Tools, Instrumente des raumbezogenen Monitorings und Datenbanken zur Erfassung, Darstellung und Kommunikation von Innenentwicklungspotentialen, Brachflächen, Leerständen, Unternutzungen usw. </p>
-					
+
+				<!--Eingabe und Einstellungsbereich-->			
+				<div class="searchbar">
+					<div>
+						<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
+					</div>
+					<div>
+						<input type="text" class="bibtex_search form-control" id="searchbar" placeholder="Filtere Kategorie 'Anwendungen' nach Autoren, Themen, Schlagwörtern,...">
+						<span class="help-block">Beispiel: Klimawandel Bund (findet Übereinstimmungen beider Terme)</span>
+					</div>		
+				</div>
+				<!---Ende Eingabebereich-->
+
 			<!-- Ausgabebereich der Einträge, wird durch parser.js befüllt-->
 			<div id="bibtex_display" >				
 				<!--Template bestimmt Anordnung der Elemente
@@ -127,6 +139,12 @@
 									<!--Titel mit Link zur Detailseite-->
 									<a class="bibtexVar bibtexCodeLink noread" href="http://monitor.ioer.de/svg_viewer/fp/detail.php?bibkey=+BIBTEXKEY+" aria-controls="bib+BIBTEXKEY+" extra="BIBTEXKEY"><h4 class="first"> <span class="title"> </span></h4></a>
 										<div class="doc-body">
+										<p class="if keywords" style="display:none;">
+												<span class="keywords"></span>
+											</p>
+											<p class="if author" style="display:none;">
+												<span class="author"></span>
+											</p>
 											<!--Zusammenfassung-->
 											<p class="if abstract"><span class="abstract"></span></p>
 											<!--Notizen-->

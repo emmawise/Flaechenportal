@@ -244,6 +244,7 @@ var z=0; //zählvariable für annotations
       this.entries[this.currentEntry] = new Object();
       this.entries[this.currentEntry]["BIBTEXKEY"] = this.rawCurrentKey;
       this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-folder-open'></i>";	
+      this.entries[this.currentEntry]["KATLINK"]= "";	
     if (directive == "@MISC") {
       this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
     }
@@ -281,36 +282,42 @@ var z=0; //zählvariable für annotations
           this.entries[this.currentEntry]["BIBTEXTYPE"] = "Ziele";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ZIELE";
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-line-chart fa-flip-vertical'></i>"; //Icon, das zu Kategorie gehört
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./ziele.php'>Ziele</a>"; //Link, der zu Kategorie gehört
       }        
       if(keywords.includes('Fachliteratur')){
           
           this.entries[this.currentEntry]["BIBTEXTYPE"] = "Fachliteratur";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@FACHLITERATUR";
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-book'></i>";
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./lit.php'>Fachliteratur</a>"; //Link, der zu Kategorie gehört
         }
     if(keywords.includes('Gesetzliche Regelungen')){
           			
           this.entries[this.currentEntry]["BIBTEXTYPE"] = "Gesetzliche Regelungen";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@GESETZE";	
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-balance-scale'></i>";
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./gesetz.php'>Gesetzliche Regelungen</a>"; //Link, der zu Kategorie gehört
         }
         if(keywords.includes('Statistische Angebote')){
           //Fall Bericht-> Statistische Angebote
-          this.entries[this.currentEntry]["BIBTEXTYPE"] = " Statistische Angebote";
+          this.entries[this.currentEntry]["BIBTEXTYPE"] = "Statistische Angebote";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@STATISTIK";
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-bar-chart'></i>";
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./stat.php'>Statistische Angebote</a>"; //Link, der zu Kategorie gehört
         }	
             if(keywords.includes('Portale')){
           				
           this.entries[this.currentEntry]["BIBTEXTYPE"] = "Portale";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@PORTALE";
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-bookmark-o'></i>";
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./port.php'>Portale</a>"; //Link, der zu Kategorie gehört
         }
           if(keywords.includes('Anwendungen')){
        
           this.entries[this.currentEntry]["BIBTEXTYPE"] = "Anwendungen";
           this.entries[this.currentEntry]["BIBTEXTYPEKEY"] = "@ANWENDUNGEN";
           this.entries[this.currentEntry]["ICONCLASS"]= "<i class='fa fa-star-o'></i>";
+          this.entries[this.currentEntry]["KATLINK"]= "<a href='./anw.php'>Anwendungen</a>"; //Link, der zu Kategorie gehört
         }
     }
   };
@@ -450,11 +457,13 @@ function BibtexDisplay() {
   	var newString = arrayString[0];  //erster Autor
   	for (i = 1; i < arrayString.length; i++) {
   	  if(i+1>=arrayString.length) {
-  	    newString += " und " + arrayString[i]; //letzten Textteil mit besonderem Zeichen davor anhängen
+  	    newString += "; " + arrayString[i]; //letzten Textteil mit besonderem Zeichen davor anhängen (früher "und")
   	  } else {
-	    newString += ", " + arrayString[i]; //zwischen vorhergehenden Autoren ein Komma setzen
-	  }
-	}
+	    newString += "; " + arrayString[i]; //zwischen vorhergehenden Autoren ein Semikolon setzen (früher ",")
+    }
+    
+  }
+  console.log(newString);
 	return newString;
   };
   
@@ -1147,7 +1156,8 @@ function authorList(object) {
   //	Funktionalität und Befüllen des Autoren-Such-Dropdowns
   var map = new Object();
   $("span.author").each(function(i, obj) {  	
-  	arrayString = $(this).text().split(new RegExp(",[\\s]+and[\\s]+|,[\\s]+"));
+    arrayString = $(this).text().split(new RegExp(";[\\s]+und[\\s]+|;[\\s]+"));
+    console.log(arrayString);
   	if(object.attr("extra")=="first"){
   		map[arrayString[0]] = 1;  //nur erste Autoren
   	} else {    								//auch alle weiteren Autoren
@@ -1160,27 +1170,25 @@ function authorList(object) {
 	  	}
   	} 
   }); 	   
+  //Erzeuge Array mit allen Autornamen=keys und dieser zum Sortieren in Kleinbuchstaben
   var tuples = [];
-  for (var key in map) tuples.push([key, key.split(" ").pop().toLowerCase()]);
-//Namen der Autoren nach Vor und Nachnamen trennen und sortieren. 
-//Sortieren aller Autoren nach alphabet
+  for (var key in map) tuples.push([key, key.toLowerCase()]);
+
+//Sortieren aller Autoren nach alphabet 
   tuples.sort(function(a, b) {
+    console.log(a); console.log(b);
     a = a[1];
      b = b[1];
-    return a < b ? -1 : (a > b ? 1 : 0);
+   // return a < b ? -1 : (a > b ? 1 : 0);
+   return a.localeCompare(b); //Neue Sortierweise für Beachtung von Umlauten
   });
-//Autoren an Leerzeichen auftrennen und mit Komma umsortieren- schlecht für Autoren ohne echten Vor/nachnamen-auskommentiert
+
   for (var i = 0; i < tuples.length; i++) {
     var key = tuples[i][0];
-    var value = tuples[i][1];
-    var array = key.split(" ");
-    //var text = array.pop()+", "+array.join(" ");
-
-    var text = array.join(" "); //alle Elemente des Arrays als sting hintereinander auflisten, mit Leerzeichen dazwischen
-
-    
+    var array = key.split(" "); //Einzelne Worte eines Autornamens
+    var text = array.join(" "); //alle Elemente des Arrays als sting hintereinander auflisten, mit Leerzeichen dazwischen    
   
-	object.append($("<option></option>").attr("value",key).text(text));
+	object.append($("<option></option>").attr("value",key).text(text)); //Autorennamen an Dropdown anfügen
   }
 }
 
@@ -1202,21 +1210,22 @@ function keywordsList(object) {
   }); 	 
       
   var tuples = [];
-  for (var key in map) tuples.push([key, key.split(" ").pop().toLowerCase()]);
+  for (var key in map) tuples.push([key, key.toLowerCase()]);
 //Sortieren aller Keywords nach alphabet
   tuples.sort(function(a, b) {
     a = a[1];
      b = b[1];
-    return a < b ? -1 : (a > b ? 1 : 0);
+  //  return a < b ? -1 : (a > b ? 1 : 0);
+  return a.localeCompare(b); //Neue Sortierweise für Beachtung von Umlauten
+
   });
+ 
 
 //Keywords an Leerzeichen auftrennen und mit Komma umsortieren- nicht nötig
   for (var i = 0; i < tuples.length; i++) {
-    var key = tuples[i][0];
-    var value = tuples[i][1];    
+    var key = tuples[i][0]; 
     var array = key.split(" "); 
-    var text = array.join(" "); //alle Elemente des Arrays als string hintereinander auflisten, mit Leerzeichen dazwischen
-   // var text = array.pop()+", "+array.join(" "); //pop() löscht letztes Element des arrays, dieses wird an Anfang gestellt, getrennt mit Komma
+    var text = array.join(" "); //alle Elemente des Arrays als string hintereinander auflisten, mit Leerzeichen dazwischen  
 	object.append($("<option></option>").attr("value",key).text(text)); //alle umgestellten Keywords als Options in Dropdown einfügen
 	
   }

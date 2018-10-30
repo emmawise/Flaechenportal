@@ -67,7 +67,7 @@ include 'rss.php';
 						<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
 							<div class="navbar-form navbar-search form-group">
 								<div class="input-icon search">
-									<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+									<input type="text" class="form-control" id="inputSearch" placeholder="Portal durchsuchen..." name="search"/>		
 								</div>
 						</div>
 				</form>

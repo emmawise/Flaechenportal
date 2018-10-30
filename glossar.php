@@ -61,7 +61,7 @@
 						<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
 							<div class="navbar-form navbar-search form-group">
 								<div class="input-icon search">
-									<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+									<input type="text" class="form-control" id="inputSearch" placeholder="Portal durchsuchen..." name="search"/>		
 								</div>
 						</div>
 				</form>
@@ -105,6 +105,18 @@
 				</ol>
 				<h3><i class="fa fa-line-chart"></i>&nbsp;&nbsp;Glossar</h3>
 				<p>Erläuterung relevanter Begriffe mit Verweis auf ausführlichere Informationen. </p>
+					<!--Eingabe und Einstellungsbereich-->			
+					<div class="searchbar">
+					<div>
+						<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
+					</div>
+					<div>
+						<input type="text" class="bibtex_search form-control" id="searchbar" placeholder="Filtere Glossar nach Themen, Schlagwörtern,...">
+						<span class="help-block">Beispiel: Klimawandel Bund (findet Übereinstimmungen beider Terme)</span>
+					</div>		
+				</div>
+				<!---Ende Eingabebereich-->
+
 				<div id="bibtex_display" >
 					<!-- Ausgabebereich der Einträge-->
 					<!--Template bestimmt Anordnung der Elemente, 
@@ -187,7 +199,7 @@
 			<div class="col-xs-12 col-sm-4 col-md-3">
 				<h4>Inhalt</h4>
 				<ul>
-										<li><a href="ziele.php">Ziele</a></li>
+					<li><a href="ziele.php">Ziele</a></li>
 					<li><a href="gesetz.php">Gesetzliche Regelungen</a></li>			
 					<li><a href="stat.php">Statistische Angebote</a></li>
 					<li><a href="port.php">Portale</a></li>	

@@ -63,7 +63,7 @@
 						<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
 							<div class="navbar-form navbar-search form-group">
 								<div class="input-icon search">
-									<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+									<input type="text" class="form-control" id="inputSearch" placeholder="Portal durchsuchen..." name="search"/>		
 								</div>
 							</div>
 						</form>
@@ -107,6 +107,18 @@
 					</ol>
 					<h3><i class="fa fa-book"></i>&nbsp;&nbsp;Fachliteratur</h3>
 					<p>Berichte, Publikationen und Stellungnahmen, aus der Wissenschaft, den Verbänden und politischen Institutionen. Umfassende Analysen, Interpretationen und Prognosen von Daten.</p>
+						<!--Eingabe und Einstellungsbereich-->			
+					<div class="searchbar">
+						<div>
+							<button type="button" class="btn btn-default" onclick="reset()">Reset</button>
+						</div>
+						<div>
+							<input type="text" class="bibtex_search form-control" id="searchbar" placeholder="Filtere Kategorie 'Fachliteratur' nach Autoren, Themen, Schlagwörtern,...">
+							<span class="help-block">Beispiel: Klimawandel Bund (findet Übereinstimmungen beider Terme)</span>
+						</div>		
+					</div>
+					<!---Ende Eingabebereich-->
+
 					<!-- Ausgabebereich der Einträge-->
 					<div id="bibtex_display" >								
 						<!--Template bestimmt Anordnung der Elemente, stylebiblio.css bestimmt Aussehen
@@ -121,6 +133,12 @@
 											<div class="doc-body">
 												<p class="if abstract">
 													<span class="abstract"></span>
+												</p>
+												<p class="if keywords" style="display:none;">
+												<span class="keywords"></span>
+												</p>
+												<p class="if author" style="display:none;">
+													<span class="author"></span>
 												</p>
 												<div class="if annotation0">
 													<span class="bold">Inhalte:</span> 													

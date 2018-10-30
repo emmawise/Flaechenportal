@@ -69,7 +69,7 @@
 					<form class="navbar-form navbar-search" id="searchForm" action="" method="POST">
 						<div class="navbar-form navbar-search form-group">
 							<div class="input-icon search">
-								<input type="text" class="form-control" id="inputSearch" placeholder="Suchen..." name="search"/>		
+								<input type="text" class="form-control" id="inputSearch" placeholder="Portal durchsuchen..." name="search"/>		
 							</div>
 						</div>
 					</form>
@@ -194,7 +194,10 @@
 					<li><a href="index.html"><i class="fa fa-home"></i></a></li>
 					<li class="active">Suche</li>
 				</ol>
-				<h3><i class="fa fa-search"></i>&nbsp;&nbsp;Suche</h3><hr/>
+				</div>	
+				<div class="container">
+				<div class="row">
+				<div class="col-md-9"><h3><i class="fa fa-search"></i>&nbsp;&nbsp;Suche</h3><hr/>
 				<!--Eingabe und Einstellungsbereich-->			
 				<div class="searchbar">
 					<div>
@@ -226,8 +229,14 @@
 						</select>
 					</div>		
 				</div>
-				<!---Ende Eingabebereich-->
-				
+				<!---Ende Eingabebereich--></div>
+				<div class="col-md-3 download">
+					<h4><i class="fa fa-download"></i>&nbsp;&nbsp;Download</h4>
+					<p>Speichern Sie den alle Dokumente dieses Portals als .bib-Datei (Format: BibTeX) lokal ab. Diese Bibliothek kann dann in eine eigene Literaturverwaltungssoftware geladen werden.<br /><a href="./data/Flaechenportal.bib" class="btn btn-primary ">.bib herunterladen</a> </p>	
+				</div>
+				</div>
+				</div>
+				<div class="col-md-12">
 				<!--Links zu Eintragsarten auflisten-->
 				<h3> Springe zu Kategorie:</h3>	
 				<div class="bibtex_topics"> </div>
@@ -311,7 +320,7 @@
 					</div>
 				</div>
 				<!-- Ende Ausgabebereich der Einträge-->	 
-			</div>  
+			</div>  <div
 		</div>
 	</div>	
 </section>
